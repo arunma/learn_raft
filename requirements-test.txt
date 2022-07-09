@@ -9,3 +9,4 @@ codecov
 mypy
 gitchangelog
 mkdocs
+grpcio-testing==1.47.0

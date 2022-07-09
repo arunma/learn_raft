@@ -1,6 +1,3 @@
-import logging
-import os
-import time
 from concurrent import futures
 
 import grpc
@@ -16,16 +13,9 @@ def start(port):
     raft_pb2_grpc.add_GreeterServicer_to_server(servicer, server)
 
     host = "[::]"
-    address=f"{host}:{port}"
-    print (f"Starting grpc server at {address}")
+    address = f"{host}:{port}"
+    print(f"Starting grpc server at {address}")
 
     server.add_insecure_port(address)
     server.start()
     server.wait_for_termination()
-    #
-    # try:
-    #     while True:
-    #         time.sleep(3600)
-    # except KeyboardInterrupt:
-    #     print(f"Stopped server running at port {port}")
-    #     server.stop(0)

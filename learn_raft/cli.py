@@ -65,6 +65,7 @@ def stop(config, root):
     click.echo(f"Stopping server with identifier xxxxx on port xxxxx {config.home}/{root}")
     click.echo("Stopped the Raft server dropped!")
 
+
 @cli.command()
 @click.argument("message")
 @click.argument("port")
@@ -74,6 +75,7 @@ def client(config, message, port):
     txclient = TextClient()
     txclient.start(port)
     txclient.say_hello(message)
+
 
 #
 # @cli.command()

@@ -1,15 +1,11 @@
-import sys
+import grpc_testing
 import pytest
 
+from learn_raft.service.GreeterServicer import GreeterServicer
+from learn_raft.stubs import raft_pb2
 
-# each test runs on cwd to its temp dir
-@pytest.fixture(autouse=True)
-def go_to_tmpdir(request):
-    # Get the fixture dynamically by its name.
-    tmpdir = request.getfixturevalue("tmpdir")
-    # ensure local test created packages can be imported
-    sys.path.insert(0, str(tmpdir))
-    print("hello")
-    # Chdir only for the duration of the test.
-    with tmpdir.as_cwd():
-        yield
+servicers={raft_pb2._GREETER: GreeterServicer()}
+
+@pytest.fixture(scope="function")
+def test_server():
+    return grpc_testing.server_from_dictionary(servicers, grpc_testing.strict_real_time())

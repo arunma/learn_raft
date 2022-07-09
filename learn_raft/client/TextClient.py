@@ -1,6 +1,4 @@
 import json
-import os
-
 import grpc
 from google.protobuf.json_format import MessageToJson
 
@@ -21,7 +19,7 @@ class TextClient:
 
     def say_hello(self, message):
         print(f"message {message}")
-        response, call = self.stub.SayHello.with_call(request=HelloRequest(name=message))
+        response, call = self.stub.say_hello.with_call(request=HelloRequest(name=message))
         value = MessageToJson(response)
         metadata = [dict(name=key, value=value) for key, value in call.trailing_metadata()]
         print('metadata: ' + str(metadata))
