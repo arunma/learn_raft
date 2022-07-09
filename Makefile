@@ -104,4 +104,4 @@ proto:
 				 -I=$(PROTOS_DIR) \
 				 --python_out=$(STUBS_DIR) \
 				 --grpc_python_out=$(STUBS_DIR) \
-				 $(PROTOS_DIR)/raft.proto
+				 $(PROTOS_DIR)/raft.proto $(PROTOS_DIR)/kvstore.proto

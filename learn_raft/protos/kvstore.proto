@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package learn_raft;
+
+service KeyValueStore {
+  rpc get (GetCommand) returns (GetCommandResponse) {}
+  rpc set (SetCommand) returns (SetCommandResponse) {}
+}
+
+message GetCommand {
+  optional string key = 1;
+}
+
+message GetCommandResponse {
+  optional bool found = 1;
+  optional string key = 2;
+  optional string value = 3;
+}
+
+message SetCommand {
+  optional string request_id=1;
+  optional string key = 2;
+  optional string value = 3;
+}
+
+message SetCommandResponse {
+  optional string request_id=1;
+  optional StatusCode status = 2;
+}
+
+enum StatusCode {
+  STATUS_SUCCESS = 0;
+  STATUS_FAILURE = 1;
+}
