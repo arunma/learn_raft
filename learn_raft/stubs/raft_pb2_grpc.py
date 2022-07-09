@@ -15,8 +15,8 @@ class GreeterStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SayHello = channel.unary_unary(
-                '/learn_raft.Greeter/SayHello',
+        self.say_hello = channel.unary_unary(
+                '/learn_raft.Greeter/say_hello',
                 request_serializer=raft__pb2.HelloRequest.SerializeToString,
                 response_deserializer=raft__pb2.HelloReply.FromString,
                 )
@@ -26,7 +26,7 @@ class GreeterServicer(object):
     """The greeting service definition.
     """
 
-    def SayHello(self, request, context):
+    def say_hello(self, request, context):
         """Sends a greeting
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -36,8 +36,8 @@ class GreeterServicer(object):
 
 def add_GreeterServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SayHello': grpc.unary_unary_rpc_method_handler(
-                    servicer.SayHello,
+            'say_hello': grpc.unary_unary_rpc_method_handler(
+                    servicer.say_hello,
                     request_deserializer=raft__pb2.HelloRequest.FromString,
                     response_serializer=raft__pb2.HelloReply.SerializeToString,
             ),
@@ -46,25 +46,25 @@ def add_GreeterServicer_to_server(servicer, server):
             'learn_raft.Greeter', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
-
- # This class is part of an EXPERIMENTAL API.
-class Greeter(object):
-    """The greeting service definition.
-    """
-
-    @staticmethod
-    def SayHello(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/learn_raft.Greeter/SayHello',
-            raft__pb2.HelloRequest.SerializeToString,
-            raft__pb2.HelloReply.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+#
+#  # This class is part of an EXPERIMENTAL API.
+# class Greeter(object):
+#     """The greeting service definition.
+#     """
+#
+#     @staticmethod
+#     def say_hello(request,
+#             target,
+#             options=(),
+#             channel_credentials=None,
+#             call_credentials=None,
+#             insecure=False,
+#             compression=None,
+#             wait_for_ready=None,
+#             timeout=None,
+#             metadata=None):
+#         return grpc.experimental.unary_unary(request, target, '/learn_raft.Greeter/say_hello',
+#             raft__pb2.HelloRequest.SerializeToString,
+#             raft__pb2.HelloReply.FromString,
+#             options, channel_credentials,
+#             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
