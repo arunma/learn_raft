@@ -4,6 +4,13 @@ package learn_raft;
 
 
 //rpc
+service Raft {
+  rpc request_vote (RequestVote) returns (RequestVoteResponse) {}
+  rpc append_entries (AppendEntries) returns (AppendEntriesResponse) {}
+  //TODO pre_vote
+  //TODO snapshot
+}
+
 message RequestVote {
   optional uint32 server_id = 1;
   optional uint64 term = 2 ;
@@ -12,8 +19,9 @@ message RequestVote {
 }
 
 message RequestVoteResponse {
-  optional uint64 term = 1;
-  optional bool vote_granted = 2;
+  optional uint32 server_id = 1;
+  optional uint64 term = 2;
+  optional bool vote_granted = 3;
 }
 
 message AppendEntries {
@@ -42,3 +50,15 @@ enum ResultCode {
   RESULT_SUCCESS = 0;
   RESULT_FAILURE = 1;
 }
+
+message Server {
+  optional uint32 id = 1;
+  optional string host = 2;
+  optional uint32 port = 3;
+}
+
+
+//TODO
+//AddPeer
+//RemovePeer
+//Install snapshot

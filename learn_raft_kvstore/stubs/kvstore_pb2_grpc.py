@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import learn_raft.stubs.kvstore_pb2 as kvstore__pb2
+import learn_raft_kvstore.stubs.kvstore_pb2 as kvstore__pb2
 
 
 class KeyValueStoreStub(object):

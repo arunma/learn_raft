@@ -4,14 +4,14 @@ import sys
 import click
 from click_repl import register_repl
 
-from learn_raft.client.TextClient import TextClient
 from learn_raft.service import grpc_server
 
 
 class Config:
     def __init__(self, home):
         self.home = home
-        self.config = {}
+        # TODO Fix me to source this from a file
+        self.config = {"ports": [5090, 5091, 5092]}
         self.verbose = False
 
     def set_config(self, key, value):
@@ -48,13 +48,20 @@ def set_config(config, configs):  # pragma: no cover
         key, value = config.split("=")
         config.config[key] = value
 
-
 @cli.command()
-@click.argument("port")
 @pass_config
-def start(config, port):
-    click.echo(f"Started Raft server at port: {port}")
-    grpc_server.start(port)
+def start_all(config):
+    ports = config.config["ports"]
+    click.echo(f"Started Raft servers at ports: {ports}")
+    grpc_server.start(ports)
+
+
+# @cli.command()
+# @click.argument("port")
+# @pass_config
+# def start(config, port):
+#     click.echo(f"Started Raft server at port: {port}")
+#     grpc_server.start(port)
 
 
 @cli.command()
@@ -64,35 +71,6 @@ def start(config, port):
 def stop(config, root):
     click.echo(f"Stopping server with identifier xxxxx on port xxxxx {config.home}/{root}")
     click.echo("Stopped the Raft server dropped!")
-
-
-@cli.command()
-@click.argument("message")
-@click.argument("port")
-@pass_config
-def client(config, message, port):
-    click.echo(f"Started Raft client connection to server at port: {port}")
-    txclient = TextClient()
-    txclient.start(port)
-    txclient.say_hello(message)
-
-
-#
-# @cli.command()
-# @click.argument("records", required=True, metavar="KEY=VALUE", nargs=-1, type=str)
-# @pass_db
-# def insert(db, records):
-#     click.echo(f"Records to be inserted: {records}")
-#     click.echo(f"Data inserted into : {db}")
-#
-#
-# @cli.command()
-# @click.argument("keys", required=True, nargs=-1, type=str)
-# @pass_db
-# def delete(db, keys):
-#     click.echo(f"Keys to be deleted: {keys}")
-#     click.echo(f"Data deleted from : {db}")
-
 
 register_repl(cli)
 cli()

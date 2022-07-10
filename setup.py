@@ -40,7 +40,7 @@ setup(
     packages=find_packages(exclude=["tests", ".github"]),
     install_requires=read_requirements("requirements.txt"),
     entry_points={
-        "console_scripts": ["learn_raft = learn_raft.cli:cli"]
+        "console_scripts": ["learn_raft = learn_raft_kvstore.kv_cli:cli"]
     },
     extras_require={"test": read_requirements("requirements-test.txt")},
 )

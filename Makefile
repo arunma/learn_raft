@@ -2,10 +2,6 @@
 ENV_PREFIX=$(shell python -c "if __import__('pathlib').Path('.venv/bin/pip').exists(): print('.venv/bin/')")
 USING_POETRY=$(shell grep "tool.poetry" pyproject.toml && echo "yes")
 
-PROJECT_NAME=learn_raft
-STUBS_DIR=./$(PROJECT_NAME)/stubs
-PROTOS_DIR=./$(PROJECT_NAME)/protos
-
 .PHONY: help
 help:             ## Show the help.
 	@echo "Usage: make <target>"
@@ -101,7 +97,12 @@ docs:             ## Build the documentation.
 proto:
 	@echo "generating proto"
 	@python -m grpc.tools.protoc \
-				 -I=$(PROTOS_DIR) \
-				 --python_out=$(STUBS_DIR) \
-				 --grpc_python_out=$(STUBS_DIR) \
-				 $(PROTOS_DIR)/raft.proto $(PROTOS_DIR)/kvstore.proto
+				 -I=./learn_raft/protos \
+				 --python_out=./learn_raft/stubs \
+				 --grpc_python_out=./learn_raft/stubs \
+				 learn_raft/protos/raft.proto
+	@python -m grpc.tools.protoc \
+				 -I=./learn_raft_kvstore/protos \
+				 --python_out=./learn_raft_kvstore/stubs \
+				 --grpc_python_out=./learn_raft_kvstore/stubs \
+				 ./learn_raft_kvstore/protos/kvstore.proto

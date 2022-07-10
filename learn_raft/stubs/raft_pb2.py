@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nraft.proto\x12\nlearn_raft\"\xad\x01\n\x0bRequestVote\x12\x16\n\tserver_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x1a\n\rlast_log_term\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x1b\n\x0elast_log_index\x18\x04 \x01(\x04H\x03\x88\x01\x01\x42\x0c\n\n_server_idB\x07\n\x05_termB\x10\n\x0e_last_log_termB\x11\n\x0f_last_log_index\"]\n\x13RequestVoteResponse\x12\x11\n\x04term\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x19\n\x0cvote_granted\x18\x02 \x01(\x08H\x01\x88\x01\x01\x42\x07\n\x05_termB\x0f\n\r_vote_granted\"\x90\x02\n\rAppendEntries\x12\x11\n\x04term\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x16\n\tleader_id\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x1a\n\rprev_log_term\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x1b\n\x0eprev_log_index\x18\x04 \x01(\x04H\x03\x88\x01\x01\x12 \n\x13leader_commit_index\x18\x05 \x01(\x04H\x04\x88\x01\x01\x12%\n\x07\x65ntries\x18\x06 \x03(\x0b\x32\x14.learn_raft.LogEntryB\x07\n\x05_termB\x0c\n\n_leader_idB\x10\n\x0e_prev_log_termB\x11\n\x0f_prev_log_indexB\x16\n\x14_leader_commit_index\"\x82\x01\n\x08LogEntry\x12\x11\n\x04type\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x12\n\x05index\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x14\n\x07\x63ommand\x18\x04 \x01(\x0cH\x03\x88\x01\x01\x42\x07\n\x05_typeB\x07\n\x05_termB\x08\n\x06_indexB\n\n\x08_command\"\x9b\x01\n\x15\x41ppendEntriesResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x1b\n\x0elast_log_index\x18\x03 \x01(\x04H\x02\x88\x01\x01\x42\t\n\x07_resultB\x07\n\x05_termB\x11\n\x0f_last_log_index*4\n\nResultCode\x12\x12\n\x0eRESULT_SUCCESS\x10\x00\x12\x12\n\x0eRESULT_FAILURE\x10\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nraft.proto\x12\nlearn_raft\"\xad\x01\n\x0bRequestVote\x12\x16\n\tserver_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x1a\n\rlast_log_term\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x1b\n\x0elast_log_index\x18\x04 \x01(\x04H\x03\x88\x01\x01\x42\x0c\n\n_server_idB\x07\n\x05_termB\x10\n\x0e_last_log_termB\x11\n\x0f_last_log_index\"\x83\x01\n\x13RequestVoteResponse\x12\x16\n\tserver_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x19\n\x0cvote_granted\x18\x03 \x01(\x08H\x02\x88\x01\x01\x42\x0c\n\n_server_idB\x07\n\x05_termB\x0f\n\r_vote_granted\"\x90\x02\n\rAppendEntries\x12\x11\n\x04term\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x16\n\tleader_id\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x1a\n\rprev_log_term\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x1b\n\x0eprev_log_index\x18\x04 \x01(\x04H\x03\x88\x01\x01\x12 \n\x13leader_commit_index\x18\x05 \x01(\x04H\x04\x88\x01\x01\x12%\n\x07\x65ntries\x18\x06 \x03(\x0b\x32\x14.learn_raft.LogEntryB\x07\n\x05_termB\x0c\n\n_leader_idB\x10\n\x0e_prev_log_termB\x11\n\x0f_prev_log_indexB\x16\n\x14_leader_commit_index\"\x82\x01\n\x08LogEntry\x12\x11\n\x04type\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x12\n\x05index\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x14\n\x07\x63ommand\x18\x04 \x01(\x0cH\x03\x88\x01\x01\x42\x07\n\x05_typeB\x07\n\x05_termB\x08\n\x06_indexB\n\n\x08_command\"\x9b\x01\n\x15\x41ppendEntriesResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x1b\n\x0elast_log_index\x18\x03 \x01(\x04H\x02\x88\x01\x01\x42\t\n\x07_resultB\x07\n\x05_termB\x11\n\x0f_last_log_index\"X\n\x06Server\x12\x0f\n\x02id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04host\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x11\n\x04port\x18\x03 \x01(\rH\x02\x88\x01\x01\x42\x05\n\x03_idB\x07\n\x05_hostB\x07\n\x05_port*4\n\nResultCode\x12\x12\n\x0eRESULT_SUCCESS\x10\x00\x12\x12\n\x0eRESULT_FAILURE\x10\x01\x32\xa4\x01\n\x04Raft\x12J\n\x0crequest_vote\x12\x17.learn_raft.RequestVote\x1a\x1f.learn_raft.RequestVoteResponse\"\x00\x12P\n\x0e\x61ppend_entries\x12\x19.learn_raft.AppendEntries\x1a!.learn_raft.AppendEntriesResponse\"\x00\x62\x06proto3')
 
 _RESULTCODE = DESCRIPTOR.enum_types_by_name['ResultCode']
 ResultCode = enum_type_wrapper.EnumTypeWrapper(_RESULTCODE)
@@ -28,6 +28,7 @@ _REQUESTVOTERESPONSE = DESCRIPTOR.message_types_by_name['RequestVoteResponse']
 _APPENDENTRIES = DESCRIPTOR.message_types_by_name['AppendEntries']
 _LOGENTRY = DESCRIPTOR.message_types_by_name['LogEntry']
 _APPENDENTRIESRESPONSE = DESCRIPTOR.message_types_by_name['AppendEntriesResponse']
+_SERVER = DESCRIPTOR.message_types_by_name['Server']
 RequestVote = _reflection.GeneratedProtocolMessageType('RequestVote', (_message.Message,), {
   'DESCRIPTOR' : _REQUESTVOTE,
   '__module__' : 'raft_pb2'
@@ -63,19 +64,31 @@ AppendEntriesResponse = _reflection.GeneratedProtocolMessageType('AppendEntriesR
   })
 _sym_db.RegisterMessage(AppendEntriesResponse)
 
+Server = _reflection.GeneratedProtocolMessageType('Server', (_message.Message,), {
+  'DESCRIPTOR' : _SERVER,
+  '__module__' : 'raft_pb2'
+  # @@protoc_insertion_point(class_scope:learn_raft.Server)
+  })
+_sym_db.RegisterMessage(Server)
+
+_RAFT = DESCRIPTOR.services_by_name['Raft']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _RESULTCODE._serialized_start=863
-  _RESULTCODE._serialized_end=915
+  _RESULTCODE._serialized_start=992
+  _RESULTCODE._serialized_end=1044
   _REQUESTVOTE._serialized_start=27
   _REQUESTVOTE._serialized_end=200
-  _REQUESTVOTERESPONSE._serialized_start=202
-  _REQUESTVOTERESPONSE._serialized_end=295
-  _APPENDENTRIES._serialized_start=298
-  _APPENDENTRIES._serialized_end=570
-  _LOGENTRY._serialized_start=573
-  _LOGENTRY._serialized_end=703
-  _APPENDENTRIESRESPONSE._serialized_start=706
-  _APPENDENTRIESRESPONSE._serialized_end=861
+  _REQUESTVOTERESPONSE._serialized_start=203
+  _REQUESTVOTERESPONSE._serialized_end=334
+  _APPENDENTRIES._serialized_start=337
+  _APPENDENTRIES._serialized_end=609
+  _LOGENTRY._serialized_start=612
+  _LOGENTRY._serialized_end=742
+  _APPENDENTRIESRESPONSE._serialized_start=745
+  _APPENDENTRIESRESPONSE._serialized_end=900
+  _SERVER._serialized_start=902
+  _SERVER._serialized_end=990
+  _RAFT._serialized_start=1047
+  _RAFT._serialized_end=1211
 # @@protoc_insertion_point(module_scope)
