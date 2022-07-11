@@ -52,7 +52,7 @@ async def start_kv_server(server_id, config):
     peer_map = {server.id: server for server in all_servers}
     local_server = peer_map[server_id]
     server = aio.server(futures.ThreadPoolExecutor(max_workers=5))
-    raft_node = RaftNode(local_server, all_servers, config)
+    raft_node = RaftNode(local_server, config, all_servers)
     servicer = RaftService(raft_node)
     raft_pb2_grpc.add_RaftServicer_to_server(servicer, server)
     servicer = KVStore(raft_node)
@@ -75,7 +75,7 @@ async def start_raft_server(server_id, config):
     peer_map = {server.id: server for server in all_servers}
     local_server = peer_map[server_id]
     server = aio.server(futures.ThreadPoolExecutor(max_workers=5))
-    raft_node = RaftNode(local_server, all_servers, config)
+    raft_node = RaftNode(local_server, config, all_servers)
     servicer = RaftService(raft_node)
     raft_pb2_grpc.add_RaftServicer_to_server(servicer, server)
     print(f"Starting Raft Server at {local_server}")

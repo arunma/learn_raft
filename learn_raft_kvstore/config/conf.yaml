@@ -11,7 +11,13 @@ raft_servers:
 
 data_dir: /tmp/raft_kvstore_data
 
-heartbeat_interval: 0.3
-election_timeout_from: 1.5
-election_timeout_to: 3.0
-step_down_timeout: 5.0
+#heartbeat_interval: 0.3
+#election_timeout_from: 1.5
+#election_timeout_to: 3.0
+#step_down_timeout: 5.0
+
+#Slowing down f
+heartbeat_interval: 1
+election_timeout_from: 3
+election_timeout_to: 7
+step_down_timeout: 10
