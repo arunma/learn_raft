@@ -1,6 +1,6 @@
 # Python Project Template
 
-Distributed gRPC driven KV store written in python for learning Raft
+[WIP] Distributed gRPC driven KV store written in python for learning Raft
 
 [//]: # ()
 [//]: # (# Python Project Template)
