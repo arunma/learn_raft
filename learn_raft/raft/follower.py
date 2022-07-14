@@ -33,12 +33,6 @@ class Follower(BaseState):
     def stop_election_timer(self):
         self.election_timer.cancel()
 
-    def start(self):
-        # start election.
-        # TODO - don't forget to reset the timer after append_entries (heartbeat)
-        #self.start_election_timer()
-        pass
-
     def stop(self):
         # start election.
         # TODO - don't forget to reset the timer after append_entries (heartbeat)
@@ -49,18 +43,19 @@ class Follower(BaseState):
         #self.change_state(NodeState.CANDIDATE)
         #For now, just switch to candidate blindly.  We'll need to check for heartbeats at a later point
         self.to_candidate()
-        self.reset_election_timer()
 
 
-    def get_vote_from_server(self, peer, request):
-        vote_response = peer.stub.request_vote(request)
-        return vote_response
 
     def append_entries(self, request):
-        print("Called append_entries in RAFT_NODE")
-        pass
+        print(f"Called append_entries in follower node : {self.state.server_info.id}")
+        #TODO - check if the request is valid
+        #Check if current term is greater than the request term
+        #if request.term < self.state.current_term: - whatever
+        print(f"Resetting election timer for follower : {self.state.server_info.id}")
+        #self.reset_election_timer()
+        self.stop_election_timer() #FIXME - Stopping for debugging
 
     def to_candidate(self):
+        self.stop_election_timer()
         candidate = Candidate(self.state)
         candidate.voted_for = None
-        return candidate

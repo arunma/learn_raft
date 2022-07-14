@@ -18,6 +18,6 @@ data_dir: /tmp/raft_kvstore_data
 
 #Slowing down f
 heartbeat_interval: 1
-election_timeout_from: 3
+election_timeout_from: 5
 election_timeout_to: 7
 step_down_timeout: 10

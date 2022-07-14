@@ -6,10 +6,11 @@ from learn_raft.stubs import raft_pb2_grpc
 class Peer:
     def __init__(self, server_info):
         self.server_info = server_info
-        self.vote_granted = False
+        self.voted_for = None
 
         self.next_index = None
         self.match_index = None
+        self.stub = None
 
         # TODO last_log_term
         # TODO current_term

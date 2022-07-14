@@ -1,6 +1,6 @@
 from learn_raft.raft import server_tostring
 from learn_raft.raft.peer import Peer
-from learn_raft.stubs.raft_pb2 import RequestVoteResponse
+from learn_raft.stubs.raft_pb2 import RequestVoteResponse, RequestVote
 
 
 class BaseState:
@@ -16,11 +16,14 @@ class BaseState:
 
     # This function is called when the peers request for vote from this node
     def request_vote(self, request):
-        print(
-            "******************* Called request_vote in RAFT_NODE. Giving the vote slightly intelligently *******************")
+        # print("******************* Called request_vote in RAFT_NODE. Giving the vote slightly intelligently *******************")
         if self.state.current_term < request.term and not self.state.voted_for:
             self.state.current_term = request.term
             self.state.voted_for = request.server_id
-            return RequestVoteResponse(server_id=self.state.server_info.id, term=request.term, vote_granted=True)
+            return RequestVoteResponse(server_id=self.state.server_info.id, term=request.term, voted_for=self.state.voted_for)
         else:
-            return RequestVoteResponse(server_id=self.state.server_info.id, term=request.term, vote_granted=False)
+            return RequestVoteResponse(server_id=self.state.server_info.id, term=request.term, voted_for=self.state.voted_for)
+
+
+    def has_majority_votes(self, yays):
+        return yays > (len(self.state.all_servers) - 1) / 2
