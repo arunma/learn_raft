@@ -24,7 +24,7 @@ class NodeBase:
         print(f"******************* Calling add_node on {self.state.server_info.id} *******************")
         if request.server.id == self.state.server_info.id:
             print("******************* Attempting to add current node as peer. Ignoring *******************")
-            return AddNodeResponse(success=False)
+            return AddNodeResponse(result=False)
 
         print(f"******************* Adding node id {request.server.id} as PEER to Node : {server_tostring(self.state.server_info)} *******************")
         if request.server.id in self.state.peer_map:

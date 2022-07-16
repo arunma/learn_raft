@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 import grpc
@@ -22,7 +23,7 @@ class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):
         stub = self.create_stub(server_info.host, server_info.port)
         self.cluster_map[server_info.id] = (server_info, stub)
         print(f"++++++ Added node {server_info.id} to cluster manager map")
-        self.propagate_node_addition()
+        self.propagate_node_addition(server_info.id)
         self.print_cluster_map()
         # FIXME - This is a hack. We need to analyse the responses from the add_node and remove_node calls and then response
         return AddNodeResponse(result=True)
@@ -39,14 +40,15 @@ class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):
         # FIXME - This is a hack. We need to analyse the responses from the add_node and remove_node calls and then response
         return RemoveNodeResponse(result=True)
 
-    def propagate_node_addition(self):
+    def propagate_node_addition(self, curr_server_id):
         for id, (info, stub) in self.cluster_map.items():
-            print(f"Propagating node addition to {server_tostring(info)}")
-            response = stub.add_node(request=AddNode(server=info))
-            value = MessageToJson(response)
-            json_value = json.loads(value)
-            print("json_value: " + str(json_value))
-            print(f"Add node response :{response.result}")
+            if id != curr_server_id:
+                print(f"Propagating node addition to {server_tostring(info)}")
+                response = stub.add_node(request=AddNode(server=info))
+                value = MessageToJson(response)
+                json_value = json.loads(value)
+                print("json_value: " + str(json_value))
+                print(f"Add node response :{response.result}")
 
     def propagate_node_removal(self):
         for id, (info, stub) in self.cluster_map.items():
