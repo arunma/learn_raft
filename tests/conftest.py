@@ -6,7 +6,7 @@ import pytest
 import yaml
 
 from learn_raft.stubs.raft_pb2 import Server
-from learn_raft_kvstore.service import kv_grpc_server
+from learn_raft_kvstore.service import old_kv_server
 from learn_raft_kvstore.service.kvstore import KVStore
 from learn_raft_kvstore.stubs import kvstore_pb2
 

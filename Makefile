@@ -100,9 +100,43 @@ proto:
 				 -I=./learn_raft/protos \
 				 --python_out=./learn_raft/stubs \
 				 --grpc_python_out=./learn_raft/stubs \
-				 learn_raft/protos/raft.proto
+				 learn_raft/protos/raft.proto learn_raft/protos/cluster_manager.proto
 	@python -m grpc.tools.protoc \
 				 -I=./learn_raft_kvstore/protos \
 				 --python_out=./learn_raft_kvstore/stubs \
 				 --grpc_python_out=./learn_raft_kvstore/stubs \
 				 ./learn_raft_kvstore/protos/kvstore.proto
+
+.PHONY: start_all
+start_all:
+	@echo "Starting all servers in config"
+	@pip install -e .
+	@learn_raft --config-file ./learn_raft_kvstore/config/conf.yaml start-cluster-manager --id 9999 --host 0.0.0.0 --port 9999
+	#@learn_raft --config-file ./learn_raft_kvstore/config/conf.yaml start-raft-node --id 1 --host 0.0.0.0  --port 5090 --cluster-manager-ip 0.0.0.0:9999
+	#@learn_raft start-kv-node --config ./learn_raft_kvstore/config/conf.yaml --id 8888 --host 0.0.0.0  --port 8888 --cluster_manager_ip 0.0.0.0:9999
+#	@learn_raft start-raft-node --config ./learn_raft_kvstore/config/conf.yaml --id 2 --host 0.0.0.0  --port 5091 --cluster_manager_ip 0.0.0.0:9999 --state-dir /tmp/state1
+#	@learn_raft start-raft-node --config ./learn_raft_kvstore/config/conf.yaml --id 3 --host 0.0.0.0  --port 5092 --cluster_manager_ip 0.0.0.0:9999 --state-dir /tmp/state1
+
+.PHONY: start_cluster_manager
+start_cluster_manager:
+	@echo "Starting Cluster manager"
+	@pip install -e .
+	@learn_raft --config-file ./learn_raft_kvstore/config/conf.yaml start-cluster-manager --id 9999 --host 0.0.0.0 --port 9999
+	#@learn_raft --config-file ./learn_raft_kvstore/config/conf.yaml start-raft-node --id 1 --host 0.0.0.0  --port 5090 --cluster-manager-ip 0.0.0.0:9999
+	#@learn_raft start-kv-node --config ./learn_raft_kvstore/config/conf.yaml --id 8888 --host 0.0.0.0  --port 8888 --cluster_manager_ip 0.0.0.0:9999
+#	@learn_raft start-raft-node --config ./learn_raft_kvstore/config/conf.yaml --id 2 --host 0.0.0.0  --port 5091 --cluster_manager_ip 0.0.0.0:9999 --state-dir /tmp/state1
+#	@learn_raft start-raft-node --config ./learn_raft_kvstore/config/conf.yaml --id 3 --host 0.0.0.0  --port 5092 --cluster_manager_ip 0.0.0.0:9999 --state-dir /tmp/state1
+
+#@learn_raft start-raft-node --config ./learn_raft_kvstore/config/conf.yaml --id 1 --host 0.0.0.0  --port 5090 --cluster_manager_ip 0.0.0.0:9999 --state-dir /tmp/state1
+
+.PHONY: start_raft_node1
+start_raft_node1:
+	@echo "Starting Raft Node"
+	@pip install -e .
+	@learn_raft --config-file ./learn_raft_kvstore/config/conf.yaml start-raft-node --id 1 --host 0.0.0.0  --port 5090 --cluster-manager-ip 0.0.0.0:9999
+
+.PHONY: start_raft_node2
+start_raft_node2:
+	@echo "Starting Raft Node"
+	@pip install -e .
+	@learn_raft --config-file ./learn_raft_kvstore/config/conf.yaml start-raft-node --id 2 --host 0.0.0.0  --port 5091 --cluster-manager-ip 0.0.0.0:9999

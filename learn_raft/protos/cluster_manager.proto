@@ -1,0 +1,30 @@
+syntax = "proto3";
+import "raft.proto";
+
+package learn_raft;
+//rpc
+service ClusterManager {
+  rpc add_node (AddNode) returns (AddNodeResponse) {}
+  rpc remove_node (RemoveNode) returns (RemoveNodeResponse) {}
+  rpc get_nodes (GetNode) returns (GetNodeResponse) {}
+  //TODO snapshot
+}
+
+message GetNode {
+}
+
+message GetNodeResponse {
+  repeated Server servers = 1;
+}
+
+//TODO
+message HeartBeat {
+}
+
+message HeartBeatResponse {
+}
+
+
+//TODO
+
+//Install snapshot

@@ -1,20 +1,24 @@
-from learn_raft.raft import NodeState
-from learn_raft.raft.follower import Follower
-
-class RaftNode:
-    def __init__(self, local_server_info, config, all_servers, node_state=NodeState.FOLLOWER):
-        self.server_info = local_server_info
-        self.node_state = node_state
-        self.config = config
-        self.all_servers = all_servers
-        self.state = None
-        self.peer_map={}
-
-    async def start(self):
-        #self.state.stop()
-        self.state = Follower.init_with_params(self.server_info, self.config, self.all_servers)
-        await self.state.init_peers()
-        #self.state.start()
+# from learn_raft.raft import NodeState
+# from learn_raft.raft.follower import Follower
+#
+# class RaftNode:
+#     def __init__(self, local_server_info, config, node_state=NodeState.FOLLOWER):
+#         self.server_info = local_server_info
+#         self.node_state = node_state
+#         self.config = config
+#         self.state = None
+#         self.peer_map={}
+#
+#     async def start(self):
+#         pass
+#         #self.state.stop()
+#         #self.state = Follower.init_with_params(self.server_info, self.config, self.all_servers)
+#         #await self.state.init_peers()
+#         #self.state.start()
+#
+#     #Let the node know that the starters configuration has changed
+#     def update_cluster_config(self):
+#         self.state.update_cluster_config()
 
 
 

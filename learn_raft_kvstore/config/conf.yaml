@@ -1,13 +1,13 @@
-raft_servers:
-  - id: 1
-    host: 0.0.0.0
-    port: 5090
-  - id: 2
-    host: 0.0.0.0
-    port: 5091
-  - id: 3
-    host: 0.0.0.0
-    port: 5092
+#raft_servers:
+#  - id: 1
+#    host: 0.0.0.0
+#    port: 5090
+#  - id: 2
+#    host: 0.0.0.0
+#    port: 5091
+#  - id: 3
+#    host: 0.0.0.0
+#    port: 5092
 
 data_dir: /tmp/raft_kvstore_data
 
@@ -17,7 +17,9 @@ data_dir: /tmp/raft_kvstore_data
 #step_down_timeout: 5.0
 
 #Slowing down f
-heartbeat_interval: 1
+heartbeat_interval: 3
 election_timeout_from: 5
-election_timeout_to: 7
-step_down_timeout: 10
+election_timeout_to: 10
+step_down_timeout: 20
+
+replication_factor: 1

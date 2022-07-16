@@ -6,9 +6,11 @@ import click
 import yaml
 from click_repl import register_repl
 
-from learn_raft.stubs.raft_pb2 import Server
+from learn_raft.service.cluster_manager_service import ClusterManagerService
+from learn_raft.starters.cluster_manager_server_starter import ClusterManagerServerStarter
+from learn_raft.starters.raft_server_starter import RaftServerStarter
 from learn_raft_kvstore.client.TextClient import TextClient
-from learn_raft_kvstore.service import kv_grpc_server
+from learn_raft_kvstore.service.kv_server import KVServer
 
 
 class Config:
@@ -60,9 +62,9 @@ def cli(ctx, home, config_file):  # pragma: no cover
 def client(config, method, arg):
     click.echo(f"Started KV server client connection to server 5090")
     txclient = TextClient(5090)
-    if method=="request_vote":
+    if method == "request_vote":
         txclient.request_vote(arg)
-    elif method=="get":
+    elif method == "get":
         txclient.get(arg)
 
 
@@ -75,16 +77,47 @@ def set_config(config, configs):  # pragma: no cover
         config.config[key] = value
 
 
+# @cli.command()
+# @pass_config
+# def start_all(config):
+#     raft_server_configs = config.config["raft_servers"]
+#     raft_servers = []
+#     for server_config in raft_server_configs:
+#         server = Server(id=int(server_config["id"]), host=server_config["host"], port=int(server_config["port"]))
+#         raft_servers.append(server)
+#
+#     asyncio.run(kv_grpc_server.start(config.config))
+
 @cli.command()
 @pass_config
-def start_all(config):
-    raft_server_configs = config.config["raft_servers"]
-    raft_servers = []
-    for server_config in raft_server_configs:
-        server = Server(id=int(server_config["id"]), host=server_config["host"], port=int(server_config["port"]))
-        raft_servers.append(server)
+@click.option("-i", "--id", required=True, type=int)
+@click.option("-h", "--host", required=True, type=str)
+@click.option("-p", "--port", required=True, type=int)
+def start_cluster_manager(config, id, host, port):
+    cluster_manager = ClusterManagerServerStarter()
+    asyncio.run(cluster_manager.start(id, host, port, config.config))
 
-    asyncio.run(kv_grpc_server.start(config.config))
+
+@cli.command()
+@pass_config
+@click.option("-i", "--id", required=True, type=int)
+@click.option("-h", "--host", required=True, type=str)
+@click.option("-p", "--port", required=True, type=int)
+@click.option("-c", "--cluster-manager-ip", required=True, type=str)
+def start_raft_node(config, id, host, port, cluster_manager_ip):
+    raft_server = RaftServerStarter(cluster_manager_ip)
+    asyncio.run(raft_server.start(id, host, port, config.config))
+
+
+@cli.command()
+@pass_config
+@click.option("-i", "--id", required=True, type=int)
+@click.option("-h", "--host", required=True, type=str)
+@click.option("-p", "--port", required=True, type=int)
+@click.option("-c", "cluster_manager_ip", required=True, type=str)
+def start_kv_node(config, id, host, port, cluster_manager_ip):
+    kv_server = KVServer(cluster_manager_ip)
+    kv_server.add_kv_node(id, host, port, config.config)
 
 
 @cli.command()

@@ -2,11 +2,12 @@ syntax = "proto3";
 
 package learn_raft;
 
-
 //rpc
 service Raft {
   rpc request_vote (RequestVote) returns (RequestVoteResponse) {}
   rpc append_entries (AppendEntries) returns (AppendEntriesResponse) {}
+  rpc add_node (AddNode) returns (AddNodeResponse) {}
+  rpc remove_node (RemoveNode) returns (RemoveNodeResponse) {}
   //TODO pre_vote
   //TODO snapshot
 }
@@ -57,8 +58,19 @@ message Server {
   optional uint32 port = 3;
 }
 
+message AddNode {
+  optional Server server = 1;
+  optional string config = 2;
+}
 
-//TODO
-//AddPeer
-//RemovePeer
-//Install snapshot
+message AddNodeResponse {
+  optional ResultCode result = 1;
+}
+
+message RemoveNode {
+  optional uint32 id = 1;
+}
+
+message RemoveNodeResponse {
+  optional ResultCode result = 1;
+}
