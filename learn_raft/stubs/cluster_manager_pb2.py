@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 import learn_raft.stubs.raft_pb2 as raft__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15\x63luster_manager.proto\x12\nlearn_raft\x1a\nraft.proto\"\t\n\x07GetNode\"6\n\x0fGetNodeResponse\x12#\n\x07servers\x18\x01 \x03(\x0b\x32\x12.learn_raft.Server\"\x0b\n\tHeartBeat\"\x13\n\x11HeartBeatResponse2\xda\x01\n\x0e\x43lusterManager\x12>\n\x08\x61\x64\x64_node\x12\x13.learn_raft.AddNode\x1a\x1b.learn_raft.AddNodeResponse\"\x00\x12G\n\x0bremove_node\x12\x16.learn_raft.RemoveNode\x1a\x1e.learn_raft.RemoveNodeResponse\"\x00\x12?\n\tget_nodes\x12\x13.learn_raft.GetNode\x1a\x1b.learn_raft.GetNodeResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15\x63luster_manager.proto\x12\nlearn_raft\x1a\nraft.proto\"\t\n\x07GetNode\"6\n\x0fGetNodeResponse\x12#\n\x07servers\x18\x01 \x03(\x0b\x32\x12.learn_raft.Server\"\x0b\n\tHeartBeat\"\x13\n\x11HeartBeatResponse2\xab\x02\n\x0e\x43lusterManager\x12>\n\x08\x61\x64\x64_node\x12\x13.learn_raft.AddNode\x1a\x1b.learn_raft.AddNodeResponse\"\x00\x12G\n\x0bremove_node\x12\x16.learn_raft.RemoveNode\x1a\x1e.learn_raft.RemoveNodeResponse\"\x00\x12?\n\tget_nodes\x12\x13.learn_raft.GetNode\x1a\x1b.learn_raft.GetNodeResponse\"\x00\x12O\n\rupdate_leader\x12\x19.learn_raft.AppendEntries\x1a!.learn_raft.AppendEntriesResponse\"\x00\x62\x06proto3')
 
 
 
@@ -64,5 +64,5 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _HEARTBEATRESPONSE._serialized_start=129
   _HEARTBEATRESPONSE._serialized_end=148
   _CLUSTERMANAGER._serialized_start=151
-  _CLUSTERMANAGER._serialized_end=369
+  _CLUSTERMANAGER._serialized_end=450
 # @@protoc_insertion_point(module_scope)

@@ -31,6 +31,11 @@ class ClusterManagerStub(object):
                 request_serializer=cluster__manager__pb2.GetNode.SerializeToString,
                 response_deserializer=cluster__manager__pb2.GetNodeResponse.FromString,
                 )
+        self.update_leader = channel.unary_unary(
+                '/learn_raft.ClusterManager/update_leader',
+                request_serializer=raft__pb2.AppendEntries.SerializeToString,
+                response_deserializer=raft__pb2.AppendEntriesResponse.FromString,
+                )
 
 
 class ClusterManagerServicer(object):
@@ -55,6 +60,12 @@ class ClusterManagerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def update_leader(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ClusterManagerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -72,6 +83,11 @@ def add_ClusterManagerServicer_to_server(servicer, server):
                     servicer.get_nodes,
                     request_deserializer=cluster__manager__pb2.GetNode.FromString,
                     response_serializer=cluster__manager__pb2.GetNodeResponse.SerializeToString,
+            ),
+            'update_leader': grpc.unary_unary_rpc_method_handler(
+                    servicer.update_leader,
+                    request_deserializer=raft__pb2.AppendEntries.FromString,
+                    response_serializer=raft__pb2.AppendEntriesResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -132,5 +148,22 @@ class ClusterManager(object):
         return grpc.experimental.unary_unary(request, target, '/learn_raft.ClusterManager/get_nodes',
             cluster__manager__pb2.GetNode.SerializeToString,
             cluster__manager__pb2.GetNodeResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def update_leader(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/learn_raft.ClusterManager/update_leader',
+            raft__pb2.AppendEntries.SerializeToString,
+            raft__pb2.AppendEntriesResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

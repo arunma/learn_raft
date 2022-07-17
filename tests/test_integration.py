@@ -4,6 +4,7 @@ import grpc
 import pytest
 import yaml
 
+from learn_raft.starters.cluster_manager_server_starter import ClusterManagerServerStarter
 from learn_raft.starters.raft_server_starter import RaftServerStarter
 from learn_raft_kvstore.stubs import kvstore_pb2
 from learn_raft_kvstore.stubs.kvstore_pb2 import GetCommand
@@ -21,3 +22,10 @@ def test_leader_check():
     config_file = open("../learn_raft_kvstore/config/conf.yaml")
     config = yaml.safe_load(config_file)
     asyncio.run(raft_server.start(9, "0.0.0.0", 5999, config))
+
+
+def test_cluster_manager_check():
+    config_file = open("../learn_raft_kvstore/config/conf.yaml")
+    config = yaml.safe_load(config_file)
+    cluster_manager = ClusterManagerServerStarter()
+    asyncio.run(cluster_manager.start(id, "0.0.0.0", 9999, config))

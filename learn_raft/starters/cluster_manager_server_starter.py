@@ -21,8 +21,8 @@ class ClusterManagerServerStarter:
         local_address = f"{host}:{port}"
         server.add_insecure_port(local_address)
 
-        print(f"Starting Cluster Manager Server at {host}:{port}")
         await server.start()
+        print(f"Cluster Manager listening at {host}:{port}")
         #self.cluster_manager_stub = cluster_manager_pb2_grpc.ClusterManagerStub(aio.insecure_channel(local_address))
         await server.wait_for_termination()
 

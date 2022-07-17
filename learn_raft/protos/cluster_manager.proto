@@ -7,6 +7,7 @@ service ClusterManager {
   rpc add_node (AddNode) returns (AddNodeResponse) {}
   rpc remove_node (RemoveNode) returns (RemoveNodeResponse) {}
   rpc get_nodes (GetNode) returns (GetNodeResponse) {}
+  rpc update_leader (AppendEntries) returns (AppendEntriesResponse) {}
   //TODO snapshot
 }
 

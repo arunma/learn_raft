@@ -4,8 +4,8 @@ from learn_raft.raft.peer import Peer
 
 class State:
 
-    def __init__(self, server_info, config, cluster_manager_ip):
-        self.server_info = server_info
+    def __init__(self, server, config, cluster_manager_ip):
+        self.server = server
         self.config = config
         self.cluster_manager_ip= cluster_manager_ip
 
