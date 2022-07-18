@@ -3,7 +3,7 @@ import datetime
 from learn_raft.raft.node_base import NodeBase
 from learn_raft.raft.timer import Timer
 from learn_raft.raft.transitioner import Transitioner
-from learn_raft.stubs.raft_pb2 import AppendEntries, RESULT_SUCCESS, AppendEntriesResponse
+from learn_raft.stubs.raft_pb2 import RESULT_SUCCESS, AppendEntries, AppendEntriesResponse
 
 
 class Leader(NodeBase):
@@ -13,7 +13,7 @@ class Leader(NodeBase):
         self.start_stepdown_timer()
 
     def start_heartbeat_timer(self):
-        interval = self.state.config['heartbeat_interval']
+        interval = self.state.config["heartbeat_interval"]
         print(f"Starting heartbeat timer for {self.state.server.id} at interval {interval} seconds")
         # TODO Need to check if this is the right way to do this. I believe the append_entries would kick in to reset this.
         self.heartbeat_timer = Timer(interval, self.send_heartbeat, self.state.server.id, "leader", "heartbeat")
@@ -21,7 +21,7 @@ class Leader(NodeBase):
         print(f"Heartbeat timer started for {self.state.server.id} at {datetime.datetime.now()}")
 
     def start_stepdown_timer(self):
-        interval = self.state.config['step_down_timeout']
+        interval = self.state.config["step_down_timeout"]
         print(f"Starting election timer for {self.state.server.id} at interval {interval} seconds")
         # TODO Need to check if this is the right way to do this. I believe the append_entries would kick in to reset this.
         self.stepdown_timer = Timer(interval, self.stepdown, self.state.server.id, "leader", "stepdown")
@@ -30,12 +30,9 @@ class Leader(NodeBase):
 
     def send_heartbeat(self):
         # entry = LogEntry(type=1, term=self.state.current_term, index=1, command=str.encode("heartbeat"))
-        request = AppendEntries(term=self.state.term,
-                                leader_id=self.state.server.id,
-                                prev_log_term=1,
-                                prev_log_index=1,
-                                leader_commit_index=1,
-                                entries=[])
+        request = AppendEntries(
+            term=self.state.term, leader_id=self.state.server.id, prev_log_term=1, prev_log_index=1, leader_commit_index=1, entries=[]
+        )
         self.append_entries(request)
 
     def append_entries(self, request):

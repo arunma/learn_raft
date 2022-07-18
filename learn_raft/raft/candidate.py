@@ -1,6 +1,6 @@
 from random import random
 
-from learn_raft.raft import state_tostring, server_tostring
+from learn_raft.raft import server_tostring, state_tostring
 from learn_raft.raft.node_base import NodeBase
 from learn_raft.raft.timer import Timer
 from learn_raft.raft.transitioner import Transitioner
@@ -37,10 +37,7 @@ class Candidate(NodeBase):
             if peer.server.id == self.state.server.id:
                 continue
             next_term = self.state.term + 1
-            request = RequestVote(server_id=self.state.server.id,
-                                  term=next_term,
-                                  last_log_term=self.state.term,
-                                  last_log_index=len(self.state.log))
+            request = RequestVote(server_id=self.state.server.id, term=next_term, last_log_term=self.state.term, last_log_index=len(self.state.log))
             p1 = self.get_vote_from_peers(peer, request)
             peer_votes.append(p1)
             if p1.voted_for == self.state.server.id:
@@ -49,7 +46,8 @@ class Candidate(NodeBase):
         vote_responses = peer_votes
         formatted_responses = [
             f"server_id: {vote_response.server_id}, term: {vote_response.term}, voted_for: {vote_response.voted_for}"
-            for vote_response in vote_responses]
+            for vote_response in vote_responses
+        ]
         print(f"Vote responses from Peers for {self.state.server.id} are: {formatted_responses}")
 
         if self.has_majority_votes(yay_votes):

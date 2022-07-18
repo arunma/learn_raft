@@ -3,11 +3,11 @@ from concurrent import futures
 import grpc
 from grpc import aio
 
-from learn_raft.raft import server_tostring, add_node_tostring
+from learn_raft.raft import add_node_tostring, server_tostring
 from learn_raft.raft.follower import Follower
 from learn_raft.service.raft_service import RaftService
 from learn_raft.stubs import cluster_manager_pb2_grpc, raft_pb2_grpc
-from learn_raft.stubs.raft_pb2 import Server, AddNode, RemoveNode, RESULT_SUCCESS
+from learn_raft.stubs.raft_pb2 import RESULT_SUCCESS, AddNode, RemoveNode, Server
 
 
 class RaftServerStarter:

@@ -3,7 +3,7 @@ import grpc
 from learn_raft.raft import server_tostring, state_tostring
 from learn_raft.raft.peer import Peer
 from learn_raft.stubs import cluster_manager_pb2_grpc
-from learn_raft.stubs.raft_pb2 import RequestVoteResponse, RemoveNodeResponse, AddNodeResponse, RESULT_SUCCESS, GetStateResponse
+from learn_raft.stubs.raft_pb2 import RESULT_SUCCESS, AddNodeResponse, GetStateResponse, RemoveNodeResponse, RequestVoteResponse
 
 
 class NodeBase:
@@ -66,7 +66,7 @@ class NodeBase:
             return RequestVoteResponse(server_id=self.state.server.id, term=request.term, voted_for=self.state.voted_for)
 
     def has_majority_votes(self, yays):
-        replication_factor = self.state.config['replication_factor']
+        replication_factor = self.state.config["replication_factor"]
         return yays > (replication_factor - 1) / 2
 
     def print_peer_map(self):

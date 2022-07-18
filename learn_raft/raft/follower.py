@@ -4,7 +4,7 @@ from learn_raft.raft.node_base import NodeBase
 from learn_raft.raft.state import State
 from learn_raft.raft.timer import Timer
 from learn_raft.raft.transitioner import Transitioner
-from learn_raft.stubs.raft_pb2 import AppendEntriesResponse, RESULT_FAILURE, RESULT_SUCCESS
+from learn_raft.stubs.raft_pb2 import RESULT_FAILURE, RESULT_SUCCESS, AppendEntriesResponse
 
 
 class Follower(NodeBase):

@@ -4,7 +4,7 @@ import grpc
 from grpc import aio
 
 from learn_raft.service.cluster_manager_service import ClusterManagerService
-from learn_raft.stubs import raft_pb2_grpc, cluster_manager_pb2_grpc
+from learn_raft.stubs import cluster_manager_pb2_grpc, raft_pb2_grpc
 
 
 class ClusterManagerServerStarter:

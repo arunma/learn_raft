@@ -5,9 +5,9 @@ import grpc
 from google.protobuf.json_format import MessageToJson
 
 from learn_raft.raft import server_tostring
-from learn_raft.stubs import raft_pb2_grpc, cluster_manager_pb2_grpc
+from learn_raft.stubs import cluster_manager_pb2_grpc, raft_pb2_grpc
 from learn_raft.stubs.cluster_manager_pb2 import GetNodesResponse
-from learn_raft.stubs.raft_pb2 import AddNodeResponse, RemoveNodeResponse, AddNode, RemoveNode, AppendEntriesResponse, RESULT_SUCCESS
+from learn_raft.stubs.raft_pb2 import RESULT_SUCCESS, AddNode, AddNodeResponse, AppendEntriesResponse, RemoveNode, RemoveNodeResponse
 
 
 class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):

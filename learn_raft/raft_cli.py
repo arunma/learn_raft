@@ -60,9 +60,7 @@ def set_config(config, configs):  # pragma: no cover
 @click.confirmation_option()
 @pass_config
 def stop(config, root):
-    click.echo(
-        f"Stopping server with identifier xxxxx on port xxxxx {config.home}/{root}"
-    )
+    click.echo(f"Stopping server with identifier xxxxx on port xxxxx {config.home}/{root}")
     click.echo("Stopped the Raft server dropped!")
 
 
