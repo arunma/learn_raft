@@ -8,6 +8,7 @@ service Raft {
   rpc append_entries (AppendEntries) returns (AppendEntriesResponse) {}
   rpc add_node (AddNode) returns (AddNodeResponse) {}
   rpc remove_node (RemoveNode) returns (RemoveNodeResponse) {}
+  rpc get_state (GetState) returns (GetStateResponse) {}
   //TODO pre_vote
   //TODO snapshot
 }
@@ -73,4 +74,18 @@ message RemoveNode {
 
 message RemoveNodeResponse {
   optional ResultCode result = 1;
+}
+
+message GetState{
+}
+
+message GetStateResponse{
+  optional Server server = 1;
+  optional string cluster_manager_ip = 2;
+  repeated LogEntry log = 3;
+  optional uint64 term = 4;
+  optional uint64 commit_index = 5;
+  optional uint64 last_applied_index = 6;
+  repeated Server peers = 7;
+  optional uint32 voted_for = 8;
 }

@@ -48,6 +48,7 @@ def set_config(config, configs):  # pragma: no cover
         key, value = config.split("=")
         config.config[key] = value
 
+
 @cli.command()
 @pass_config
 def start_all(config):
@@ -71,6 +72,7 @@ def start_all(config):
 def stop(config, root):
     click.echo(f"Stopping server with identifier xxxxx on port xxxxx {config.home}/{root}")
     click.echo("Stopped the Raft server dropped!")
+
 
 register_repl(cli)
 cli()

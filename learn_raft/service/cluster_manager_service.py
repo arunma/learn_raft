@@ -5,8 +5,8 @@ import grpc
 from google.protobuf.json_format import MessageToJson
 
 from learn_raft.raft import server_tostring
-from learn_raft.stubs import raft_pb2_grpc, cluster_manager_pb2_grpc, cluster_manager_pb2
-from learn_raft.stubs.cluster_manager_pb2 import GetNodeResponse
+from learn_raft.stubs import raft_pb2_grpc, cluster_manager_pb2_grpc
+from learn_raft.stubs.cluster_manager_pb2 import GetNodesResponse
 from learn_raft.stubs.raft_pb2 import AddNodeResponse, RemoveNodeResponse, AddNode, RemoveNode, AppendEntriesResponse, RESULT_SUCCESS
 
 
@@ -29,13 +29,13 @@ class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):
         # FIXME - This is a hack. We need to analyse the responses from the add_node and remove_node calls and then response
 
         print(f"Attemping to refresh node {add_candidate_info.id} with older nodes in the cluster {self.cluster_map.keys()}")
-        #Add existing nodes as peers to the new node
+        # Add existing nodes as peers to the new node
         for id, (info, _) in self.cluster_map.items():
             print("Currently adding node " + str(id) + " as a peer to node " + str(add_candidate_info.id))
             if id != add_candidate_info.id:
                 print(f"Adding node {server_tostring(info)} as peer to {server_tostring(add_candidate_info)}")
                 response = add_candidate_stub.add_node(AddNode(server=info))
-                print(f"Add node response :{response.result==RESULT_SUCCESS}")
+                print(f"Add node response :{response.result == RESULT_SUCCESS}")
 
         self.print_cluster_map()
         return AddNodeResponse(result=RESULT_SUCCESS)
@@ -48,7 +48,7 @@ class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):
         else:
             print("Node not found in cluster manager map. Nothing to do")
         # self.print_cluster_map()
-        if self.cluster_leader==request.id:
+        if self.cluster_leader == request.id:
             self.cluster_leader = None
 
         self.propagate_node_removal(request.id)
@@ -57,7 +57,7 @@ class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):
         return RemoveNodeResponse(result=True)
 
     def update_leader(self, request, context):
-        if not self.cluster_leader or self.cluster_leader!=request.leader_id:
+        if not self.cluster_leader or self.cluster_leader != request.leader_id:
             self.cluster_leader = request.leader_id
             print(f"New leader elected. Updated leader to {request.leader_id}")
             self.print_cluster_map()
@@ -91,7 +91,7 @@ class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):
             print(f"Sending heartbeat to {server_tostring(server)}")
 
     def get_nodes(self, request, context):
-        return GetNodeResponse(servers=[info for info, stub in self.cluster_map.values()])
+        return GetNodesResponse(servers=[info for info, stub in self.cluster_map.values()], leader_id=self.cluster_leader)
 
         # def read_config(self, config):
         #     raft_server_configs = config["raft_servers"]
@@ -106,10 +106,10 @@ class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):
         return raft_pb2_grpc.RaftStub(channel)
 
     def print_cluster_map(self):
-        print(f"********************************* Cluster Map ********************************")
+        print("********************************* Cluster Map ********************************")
         for id, (info, stub) in self.cluster_map.items():
             if self.cluster_leader == id:
                 print(f"Node {server_tostring(info)} --> Leader")
             else:
                 print(f"Node {server_tostring(info)}")
-        print(f"********************************* Cluster Map ********************************")
+        print("********************************* Cluster Map ********************************")

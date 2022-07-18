@@ -3,11 +3,8 @@ from concurrent import futures
 import grpc
 from grpc import aio
 
-from learn_raft.raft import server_tostring
 from learn_raft.service.cluster_manager_service import ClusterManagerService
-from learn_raft.stubs import raft_pb2_grpc, cluster_manager_pb2_grpc, cluster_manager_pb2
-from learn_raft.stubs.cluster_manager_pb2 import GetNodeResponse
-from learn_raft.stubs.raft_pb2 import Server
+from learn_raft.stubs import raft_pb2_grpc, cluster_manager_pb2_grpc
 
 
 class ClusterManagerServerStarter:
@@ -23,7 +20,7 @@ class ClusterManagerServerStarter:
 
         await server.start()
         print(f"Cluster Manager listening at {host}:{port}")
-        #self.cluster_manager_stub = cluster_manager_pb2_grpc.ClusterManagerStub(aio.insecure_channel(local_address))
+        # self.cluster_manager_stub = cluster_manager_pb2_grpc.ClusterManagerStub(aio.insecure_channel(local_address))
         await server.wait_for_termination()
 
     def create_stub(self, host, port):

@@ -6,16 +6,17 @@ package learn_raft;
 service ClusterManager {
   rpc add_node (AddNode) returns (AddNodeResponse) {}
   rpc remove_node (RemoveNode) returns (RemoveNodeResponse) {}
-  rpc get_nodes (GetNode) returns (GetNodeResponse) {}
+  rpc get_nodes (GetNodes) returns (GetNodesResponse) {}
   rpc update_leader (AppendEntries) returns (AppendEntriesResponse) {}
   //TODO snapshot
 }
 
-message GetNode {
+message GetNodes {
 }
 
-message GetNodeResponse {
+message GetNodesResponse {
   repeated Server servers = 1;
+  uint32 leader_id = 2;
 }
 
 //TODO

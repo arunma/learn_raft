@@ -15,15 +15,15 @@ class KeyValueStoreStub(object):
             channel: A grpc.Channel.
         """
         self.get = channel.unary_unary(
-                '/learn_raft.KeyValueStore/get',
-                request_serializer=kvstore__pb2.GetCommand.SerializeToString,
-                response_deserializer=kvstore__pb2.GetCommandResponse.FromString,
-                )
+            '/learn_raft.KeyValueStore/get',
+            request_serializer=kvstore__pb2.GetCommand.SerializeToString,
+            response_deserializer=kvstore__pb2.GetCommandResponse.FromString,
+        )
         self.set = channel.unary_unary(
-                '/learn_raft.KeyValueStore/set',
-                request_serializer=kvstore__pb2.SetCommand.SerializeToString,
-                response_deserializer=kvstore__pb2.SetCommandResponse.FromString,
-                )
+            '/learn_raft.KeyValueStore/set',
+            request_serializer=kvstore__pb2.SetCommand.SerializeToString,
+            response_deserializer=kvstore__pb2.SetCommandResponse.FromString,
+        )
 
 
 class KeyValueStoreServicer(object):
@@ -44,23 +44,23 @@ class KeyValueStoreServicer(object):
 
 def add_KeyValueStoreServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'get': grpc.unary_unary_rpc_method_handler(
-                    servicer.get,
-                    request_deserializer=kvstore__pb2.GetCommand.FromString,
-                    response_serializer=kvstore__pb2.GetCommandResponse.SerializeToString,
-            ),
-            'set': grpc.unary_unary_rpc_method_handler(
-                    servicer.set,
-                    request_deserializer=kvstore__pb2.SetCommand.FromString,
-                    response_serializer=kvstore__pb2.SetCommandResponse.SerializeToString,
-            ),
+        'get': grpc.unary_unary_rpc_method_handler(
+            servicer.get,
+            request_deserializer=kvstore__pb2.GetCommand.FromString,
+            response_serializer=kvstore__pb2.GetCommandResponse.SerializeToString,
+        ),
+        'set': grpc.unary_unary_rpc_method_handler(
+            servicer.set,
+            request_deserializer=kvstore__pb2.SetCommand.FromString,
+            response_serializer=kvstore__pb2.SetCommandResponse.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'learn_raft.KeyValueStore', rpc_method_handlers)
+        'learn_raft.KeyValueStore', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
+# This class is part of an EXPERIMENTAL API.
 class KeyValueStore(object):
     """Missing associated documentation comment in .proto file."""
 
@@ -76,10 +76,10 @@ class KeyValueStore(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/learn_raft.KeyValueStore/get',
-            kvstore__pb2.GetCommand.SerializeToString,
-            kvstore__pb2.GetCommandResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             kvstore__pb2.GetCommand.SerializeToString,
+                                             kvstore__pb2.GetCommandResponse.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def set(request,
@@ -93,7 +93,7 @@ class KeyValueStore(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/learn_raft.KeyValueStore/set',
-            kvstore__pb2.SetCommand.SerializeToString,
-            kvstore__pb2.SetCommandResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             kvstore__pb2.SetCommand.SerializeToString,
+                                             kvstore__pb2.SetCommandResponse.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

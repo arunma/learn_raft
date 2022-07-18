@@ -1,10 +1,10 @@
-import threading
 from random import random
 
 from learn_raft.raft.node_base import NodeBase
 from learn_raft.raft.state import State
 from learn_raft.raft.timer import Timer
-from learn_raft.stubs.raft_pb2 import AppendEntriesResponse, ResultCode, RESULT_FAILURE, RESULT_SUCCESS
+from learn_raft.raft.transitioner import Transitioner
+from learn_raft.stubs.raft_pb2 import AppendEntriesResponse, RESULT_FAILURE, RESULT_SUCCESS
 
 
 class Follower(NodeBase):
@@ -17,7 +17,7 @@ class Follower(NodeBase):
         print(f"Starting election timer for {self.state.server.id} at interval {interval} seconds")
         self.election_timer = Timer(interval, self.start_election, self.state.server.id, "follower")
         self.election_timer.start()
-        #self.start_election()
+        # self.start_election()
         print(f"Election thread started for {self.state.server.id}")
 
     @classmethod
@@ -39,19 +39,18 @@ class Follower(NodeBase):
         # TODO - check if the request is valid
         # Check if current term is greater than the request term
         # if request.term < self.state.current_term: - whatever
-        if request.term < self.state.current_term:
-            print(f"Request term {request.term} is less than current term {self.state.current_term}. Converting to CANDIDATE")
+        if request.term < self.state.term:
+            print(f"Request term {request.term} is less than current term {self.state.term}. Converting to CANDIDATE")
             self.to_candidate()
-            return AppendEntriesResponse(result=RESULT_FAILURE, term=self.state.current_term, last_log_index=self.state.last_applied_index)
+            return AppendEntriesResponse(result=RESULT_FAILURE, term=self.state.term, last_log_index=self.state.last_applied_index)
         else:
-            leader_id=request.leader_id
-            leader_term=request.term
-            self.state.voted_for=leader_id
-            #print(f"Resetting election timer for follower : {self.state.server.id}")
+            leader_id = request.leader_id
+            self.state.term = request.term
+            self.state.voted_for = leader_id
+            # print(f"Resetting election timer for follower : {self.state.server.id}")
             self.election_timer.reset()
-            return AppendEntriesResponse(result=RESULT_SUCCESS, term=self.state.current_term, last_log_index=self.state.last_applied_index)
-
+            return AppendEntriesResponse(result=RESULT_SUCCESS, term=self.state.term, last_log_index=self.state.last_applied_index)
 
     def to_candidate(self):
         self.election_timer.stop()
-        self.transitioner.to_candidate(self.state)
+        Transitioner.to_candidate(self.state)

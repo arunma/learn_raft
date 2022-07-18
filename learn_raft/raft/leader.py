@@ -1,10 +1,9 @@
 import datetime
-import threading
 
-from learn_raft.raft import peer_tostring, append_request_tostring
 from learn_raft.raft.node_base import NodeBase
 from learn_raft.raft.timer import Timer
-from learn_raft.stubs.raft_pb2 import AppendEntries, RESULT_SUCCESS, LogEntry
+from learn_raft.raft.transitioner import Transitioner
+from learn_raft.stubs.raft_pb2 import AppendEntries, RESULT_SUCCESS, AppendEntriesResponse
 
 
 class Leader(NodeBase):
@@ -30,8 +29,8 @@ class Leader(NodeBase):
         print(f"Stepdown timer started for {self.state.server.id} at {datetime.datetime.now()}")
 
     def send_heartbeat(self):
-        #entry = LogEntry(type=1, term=self.state.current_term, index=1, command=str.encode("heartbeat"))
-        request = AppendEntries(term=self.state.current_term,
+        # entry = LogEntry(type=1, term=self.state.current_term, index=1, command=str.encode("heartbeat"))
+        request = AppendEntries(term=self.state.term,
                                 leader_id=self.state.server.id,
                                 prev_log_term=1,
                                 prev_log_index=1,
@@ -53,34 +52,34 @@ class Leader(NodeBase):
             for id, peer in self.state.peer_map.items():
                 if self.state.server.id == peer.server.id:
                     continue
-                #print(f"Calling append_entries on peer: {peer_tostring(peer)} WITH REQUEST {append_request_tostring(request)}")
+                # print(f"Calling append_entries on peer: {peer_tostring(peer)} WITH REQUEST {append_request_tostring(request)}")
                 p1 = peer.stub.append_entries(request=request)
                 peer_responses.append(p1)
 
             # For now, just reset the timer
             # yay_responses = [response for response in peer_responses if response.result == RESULT_SUCCESS]
             # yays = len(yay_responses)
-            #self.stepdown_timer.reset() #TODO - Uncomment
+            # self.stepdown_timer.reset() #TODO - Uncomment
 
-            #print(f"Append entries responses from Peers for {self.state.server.id} are: {peer_responses}")
+            # print(f"Append entries responses from Peers for {self.state.server.id} are: {peer_responses}")
             yay_responses = [response for response in peer_responses if response.result == RESULT_SUCCESS]
             yays = len(yay_responses)
             if self.has_majority_votes(yays):
                 self.stepdown_timer.reset()
-                #print(f"Resetting stepdown_timer after server id {self.state.server.id} received majority votes.")
+                # print(f"Resetting stepdown_timer after server id {self.state.server.id} received majority votes.")
             else:
                 print(f"server id {self.state.server.id} did not receive majority votes. Stepping down as follower")
                 self.stepdown_timer.stop()
                 self.heartbeat_timer.stop()
-                self.transitioner.to_follower()
+                Transitioner.to_follower(self.state)
 
-        #Update cluster manager with new leader
-        #print("Updating cluster manager with the new leader")
+        # Update cluster manager with new leader
+        # print("Updating cluster manager with the new leader")
         self.cluster_manager.update_leader(request)
-
+        return AppendEntriesResponse(result=RESULT_SUCCESS, term=self.state.term, last_log_index=self.state.last_applied_index)
 
     def stepdown(self):
         self.heartbeat_timer.stop()
         self.stepdown_timer.stop()
-        follower = self.transitioner.to_follower(self.state)
+        follower = Transitioner.to_follower(self.state)
         return follower

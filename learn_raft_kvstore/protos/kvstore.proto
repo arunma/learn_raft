@@ -18,13 +18,13 @@ message GetCommandResponse {
 }
 
 message SetCommand {
-  optional string request_id=1;
+  optional string request_id = 1;
   optional string key = 2;
   optional string value = 3;
 }
 
 message SetCommandResponse {
-  optional string request_id=1;
+  optional string request_id = 1;
   optional StatusCode status = 2;
 }
 

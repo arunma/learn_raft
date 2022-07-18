@@ -1,10 +1,9 @@
-import threading
 from random import random
 
 from learn_raft.raft import state_tostring, server_tostring
 from learn_raft.raft.node_base import NodeBase
-from learn_raft.raft.follower import Follower
 from learn_raft.raft.timer import Timer
+from learn_raft.raft.transitioner import Transitioner
 from learn_raft.stubs.raft_pb2 import RequestVote
 
 
@@ -18,7 +17,7 @@ class Candidate(NodeBase):
         print(f"Starting election timer for {self.state.server.id} at interval {interval} seconds")
         self.election_timer = Timer(interval, self.start_election, self.state.server.id, "candidate")
         self.election_timer.start()
-        #self.start_election()
+        # self.start_election()
         print(f"Election thread started for {self.state.server.id}")
 
     def start_election(self):
@@ -37,10 +36,10 @@ class Candidate(NodeBase):
         for id, peer in self.state.peer_map.items():
             if peer.server.id == self.state.server.id:
                 continue
-            next_term = self.state.current_term + 1
+            next_term = self.state.term + 1
             request = RequestVote(server_id=self.state.server.id,
                                   term=next_term,
-                                  last_log_term=self.state.current_term,
+                                  last_log_term=self.state.term,
                                   last_log_index=len(self.state.log))
             p1 = self.get_vote_from_peers(peer, request)
             peer_votes.append(p1)
@@ -66,12 +65,12 @@ class Candidate(NodeBase):
 
     def to_leader(self):
         self.election_timer.stop()
-        leader = self.transitioner.to_leader(self.state)
+        leader = Transitioner.to_leader(self.state)
         return leader
 
     def to_follower(self):
         self.election_timer.stop()
-        follower = self.transitioner.to_follower(self.state)
+        follower = Transitioner.to_follower(self.state)
         return follower
 
     # def append_entries(self, request):

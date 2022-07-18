@@ -6,7 +6,6 @@ import click
 import yaml
 from click_repl import register_repl
 
-from learn_raft.service.cluster_manager_service import ClusterManagerService
 from learn_raft.starters.cluster_manager_server_starter import ClusterManagerServerStarter
 from learn_raft.starters.raft_server_starter import RaftServerStarter
 from learn_raft_kvstore.client.TextClient import TextClient

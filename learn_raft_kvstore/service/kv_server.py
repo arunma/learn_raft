@@ -52,7 +52,7 @@ class KVServer:
     def kv_init(self, id, host, port, config_file):
         all_servers = self.raft_cluster_manager.get_nodes()
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
-        servicer = KVStore(self.raft_cluster_manager)#This might not work, since we are trying to serialize an entire stub
+        servicer = KVStore(self.raft_cluster_manager)  # This might not work, since we are trying to serialize an entire stub
         kvstore_pb2_grpc.add_KeyValueStoreServicer_to_server(servicer, server)
         print(f"Starting  KV store server at {id}:{host}:{port}")
         local_address = f"{host}:{port}"
