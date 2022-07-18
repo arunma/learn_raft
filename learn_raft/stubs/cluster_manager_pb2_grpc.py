@@ -17,25 +17,25 @@ class ClusterManagerStub(object):
             channel: A grpc.Channel.
         """
         self.add_node = channel.unary_unary(
-            '/learn_raft.ClusterManager/add_node',
-            request_serializer=raft__pb2.AddNode.SerializeToString,
-            response_deserializer=raft__pb2.AddNodeResponse.FromString,
-        )
+                '/learn_raft.ClusterManager/add_node',
+                request_serializer=raft__pb2.AddNode.SerializeToString,
+                response_deserializer=raft__pb2.AddNodeResponse.FromString,
+                )
         self.remove_node = channel.unary_unary(
-            '/learn_raft.ClusterManager/remove_node',
-            request_serializer=raft__pb2.RemoveNode.SerializeToString,
-            response_deserializer=raft__pb2.RemoveNodeResponse.FromString,
-        )
+                '/learn_raft.ClusterManager/remove_node',
+                request_serializer=raft__pb2.RemoveNode.SerializeToString,
+                response_deserializer=raft__pb2.RemoveNodeResponse.FromString,
+                )
         self.get_nodes = channel.unary_unary(
-            '/learn_raft.ClusterManager/get_nodes',
-            request_serializer=cluster__manager__pb2.GetNodes.SerializeToString,
-            response_deserializer=cluster__manager__pb2.GetNodesResponse.FromString,
-        )
+                '/learn_raft.ClusterManager/get_nodes',
+                request_serializer=cluster__manager__pb2.GetNodes.SerializeToString,
+                response_deserializer=cluster__manager__pb2.GetNodesResponse.FromString,
+                )
         self.update_leader = channel.unary_unary(
-            '/learn_raft.ClusterManager/update_leader',
-            request_serializer=raft__pb2.AppendEntries.SerializeToString,
-            response_deserializer=raft__pb2.AppendEntriesResponse.FromString,
-        )
+                '/learn_raft.ClusterManager/update_leader',
+                request_serializer=raft__pb2.AppendEntries.SerializeToString,
+                response_deserializer=raft__pb2.AppendEntriesResponse.FromString,
+                )
 
 
 class ClusterManagerServicer(object):
@@ -69,101 +69,101 @@ class ClusterManagerServicer(object):
 
 def add_ClusterManagerServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'add_node': grpc.unary_unary_rpc_method_handler(
-            servicer.add_node,
-            request_deserializer=raft__pb2.AddNode.FromString,
-            response_serializer=raft__pb2.AddNodeResponse.SerializeToString,
-        ),
-        'remove_node': grpc.unary_unary_rpc_method_handler(
-            servicer.remove_node,
-            request_deserializer=raft__pb2.RemoveNode.FromString,
-            response_serializer=raft__pb2.RemoveNodeResponse.SerializeToString,
-        ),
-        'get_nodes': grpc.unary_unary_rpc_method_handler(
-            servicer.get_nodes,
-            request_deserializer=cluster__manager__pb2.GetNodes.FromString,
-            response_serializer=cluster__manager__pb2.GetNodesResponse.SerializeToString,
-        ),
-        'update_leader': grpc.unary_unary_rpc_method_handler(
-            servicer.update_leader,
-            request_deserializer=raft__pb2.AppendEntries.FromString,
-            response_serializer=raft__pb2.AppendEntriesResponse.SerializeToString,
-        ),
+            'add_node': grpc.unary_unary_rpc_method_handler(
+                    servicer.add_node,
+                    request_deserializer=raft__pb2.AddNode.FromString,
+                    response_serializer=raft__pb2.AddNodeResponse.SerializeToString,
+            ),
+            'remove_node': grpc.unary_unary_rpc_method_handler(
+                    servicer.remove_node,
+                    request_deserializer=raft__pb2.RemoveNode.FromString,
+                    response_serializer=raft__pb2.RemoveNodeResponse.SerializeToString,
+            ),
+            'get_nodes': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_nodes,
+                    request_deserializer=cluster__manager__pb2.GetNodes.FromString,
+                    response_serializer=cluster__manager__pb2.GetNodesResponse.SerializeToString,
+            ),
+            'update_leader': grpc.unary_unary_rpc_method_handler(
+                    servicer.update_leader,
+                    request_deserializer=raft__pb2.AppendEntries.FromString,
+                    response_serializer=raft__pb2.AppendEntriesResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'learn_raft.ClusterManager', rpc_method_handlers)
+            'learn_raft.ClusterManager', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
-# This class is part of an EXPERIMENTAL API.
+ # This class is part of an EXPERIMENTAL API.
 class ClusterManager(object):
     """rpc
     """
 
     @staticmethod
     def add_node(request,
-                 target,
-                 options=(),
-                 channel_credentials=None,
-                 call_credentials=None,
-                 insecure=False,
-                 compression=None,
-                 wait_for_ready=None,
-                 timeout=None,
-                 metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/learn_raft.ClusterManager/add_node',
-                                             raft__pb2.AddNode.SerializeToString,
-                                             raft__pb2.AddNodeResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            raft__pb2.AddNode.SerializeToString,
+            raft__pb2.AddNodeResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def remove_node(request,
-                    target,
-                    options=(),
-                    channel_credentials=None,
-                    call_credentials=None,
-                    insecure=False,
-                    compression=None,
-                    wait_for_ready=None,
-                    timeout=None,
-                    metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/learn_raft.ClusterManager/remove_node',
-                                             raft__pb2.RemoveNode.SerializeToString,
-                                             raft__pb2.RemoveNodeResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            raft__pb2.RemoveNode.SerializeToString,
+            raft__pb2.RemoveNodeResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def get_nodes(request,
-                  target,
-                  options=(),
-                  channel_credentials=None,
-                  call_credentials=None,
-                  insecure=False,
-                  compression=None,
-                  wait_for_ready=None,
-                  timeout=None,
-                  metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/learn_raft.ClusterManager/get_nodes',
-                                             cluster__manager__pb2.GetNodes.SerializeToString,
-                                             cluster__manager__pb2.GetNodesResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            cluster__manager__pb2.GetNodes.SerializeToString,
+            cluster__manager__pb2.GetNodesResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def update_leader(request,
-                      target,
-                      options=(),
-                      channel_credentials=None,
-                      call_credentials=None,
-                      insecure=False,
-                      compression=None,
-                      wait_for_ready=None,
-                      timeout=None,
-                      metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/learn_raft.ClusterManager/update_leader',
-                                             raft__pb2.AppendEntries.SerializeToString,
-                                             raft__pb2.AppendEntriesResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            raft__pb2.AppendEntries.SerializeToString,
+            raft__pb2.AppendEntriesResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

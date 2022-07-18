@@ -1,9 +1,7 @@
-import asyncio
 from concurrent import futures
 from pathlib import Path
 
 import grpc
-import grpc_testing
 import pytest
 import yaml
 
@@ -13,20 +11,21 @@ from learn_raft.service.cluster_manager_service import ClusterManagerService
 from learn_raft.service.raft_service import RaftService
 from learn_raft.stubs import cluster_manager_pb2_grpc, raft_pb2_grpc
 from learn_raft.stubs.raft_pb2 import Server
-from learn_raft_kvstore.service import old_kv_server
-from learn_raft_kvstore.service.kvstore import KVStore
-from learn_raft_kvstore.stubs import kvstore_pb2
 
-@pytest.fixture(scope='session')
+
+@pytest.fixture(scope="session")
 def monkeypatch():
     from _pytest.monkeypatch import MonkeyPatch
+
     mpatch = MonkeyPatch()
     yield mpatch
     mpatch.undo()
 
-@pytest.fixture(scope='session')
+
+@pytest.fixture(scope="session")
 def base_path() -> Path:
     return Path(__file__).parent
+
 
 @pytest.fixture(scope="module")
 def config(base_path, monkeypatch):
@@ -35,30 +34,36 @@ def config(base_path, monkeypatch):
     config = yaml.safe_load(config_file)
     return config
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def cluster_manager_address():
     return "0.0.0.0:2222"
 
-#Leader
-@pytest.fixture(scope='module')
+
+# Leader
+@pytest.fixture(scope="module")
 def leader_info_server_1():
     return Server(id=0, host="0.0.0.0", port=2000)
 
-#Followers
-@pytest.fixture(scope='module')
+
+# Followers
+@pytest.fixture(scope="module")
 def follower_info_server_1():
     return Server(id=1, host="0.0.0.0", port=2001)
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def follower_info_server_2():
     return Server(id=2, host="0.0.0.0", port=2002)
 
-#Candidate
-@pytest.fixture(scope='module')
+
+# Candidate
+@pytest.fixture(scope="module")
 def candidate_info_server_1():
     return Server(id=3, host="0.0.0.0", port=2003)
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def cluster_manager_server(cluster_manager_address):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
     servicer = ClusterManagerService()
@@ -68,24 +73,31 @@ def cluster_manager_server(cluster_manager_address):
     yield server
     server.stop(grace=None)
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def cluster_manager_stub(cluster_manager_server, cluster_manager_address):
     channel = grpc.insecure_channel(cluster_manager_address)
     return cluster_manager_pb2_grpc.ClusterManagerStub(channel)
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def follower_server_1(follower_info_server_1, config, cluster_manager_address):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
 
-    raft_node=Follower.init_with_info(follower_info_server_1, config, cluster_manager_address)
+    raft_node = Follower.init_with_info(
+        follower_info_server_1, config, cluster_manager_address
+    )
     servicer = RaftService(raft_node)
     raft_pb2_grpc.add_RaftServicer_to_server(servicer, server)
-    server.add_insecure_port(f"{follower_info_server_1.host}:{follower_info_server_1.port}")
+    server.add_insecure_port(
+        f"{follower_info_server_1.host}:{follower_info_server_1.port}"
+    )
     server.start()
     yield server
     server.stop(grace=None)
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def follower_stub_1(follower_server_1, follower_info_server_1):
     channel = grpc.insecure_channel(f"{follower_info_server_1.host}:{follower_info_server_1.port}")
     return raft_pb2_grpc.RaftStub(channel)
@@ -126,12 +138,15 @@ def leader_stub_1(leader_server_1, leader_info_server_1):
     channel = grpc.insecure_channel(f"{leader_info_server_1.host}:{leader_info_server_1.port}")
     return raft_pb2_grpc.RaftStub(channel)
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def candidate_server_1(candidate_info_server_1, config, cluster_manager_address):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
 
-    raft_node=Follower.init_with_info(candidate_info_server_1, config, cluster_manager_address)
-    candidate_node=Transitioner.to_candidate(raft_node.state)
+    raft_node = Follower.init_with_info(
+        candidate_info_server_1, config, cluster_manager_address
+    )
+    candidate_node = Transitioner.to_candidate(raft_node.state)
     servicer = RaftService(candidate_node)
     raft_pb2_grpc.add_RaftServicer_to_server(servicer, server)
     server.add_insecure_port(f"{candidate_info_server_1.host}:{candidate_info_server_1.port}")
@@ -143,9 +158,6 @@ def candidate_server_1(candidate_info_server_1, config, cluster_manager_address)
 def candidate_stub_1(candidate_server_1, candidate_info_server_1):
     channel = grpc.insecure_channel(f"{candidate_info_server_1.host}:{candidate_info_server_1.port}")
     return raft_pb2_grpc.RaftStub(channel)
-
-
-
 
 
 # servicers={kvstore_pb2._KEYVALUESTORE: KVStore()}

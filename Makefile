@@ -27,15 +27,15 @@ install:          ## Install the project in dev mode.
 .PHONY: fmt
 fmt:              ## Format code using black & isort.
 	$(ENV_PREFIX)isort learn_raft/
-	$(ENV_PREFIX)black -l 79 learn_raft/
-	$(ENV_PREFIX)black -l 79 tests/
+	$(ENV_PREFIX)black -l 150 learn_raft/
+	$(ENV_PREFIX)black -l 150 tests/
 
 .PHONY: lint
 lint:             ## Run pep8, black, mypy linters.
 	$(ENV_PREFIX)flake8 learn_raft/
-	$(ENV_PREFIX)black -l 79 --check learn_raft/
-	$(ENV_PREFIX)black -l 79 --check tests/
-	$(ENV_PREFIX)mypy --ignore-missing-imports learn_raft/
+	$(ENV_PREFIX)black --check -l 150 learn_raft/
+	$(ENV_PREFIX)black --check -l 150 tests/
+	#$(ENV_PREFIX)mypy --ignore-missing-imports learn_raft/
 
 .PHONY: test
 test:         ## Run tests and generate coverage report.

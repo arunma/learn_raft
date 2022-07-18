@@ -2,7 +2,7 @@ import threading
 
 
 class Timer:
-    def __init__(self, timeout, callback, server_id, server_type, purpose='election'):
+    def __init__(self, timeout, callback, server_id, server_type, purpose="election"):
         self.timeout = timeout
         self.callback = callback
         self.server_id = server_id

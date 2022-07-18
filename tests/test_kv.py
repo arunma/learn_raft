@@ -7,6 +7,7 @@ from learn_raft.stubs.raft_pb2 import Server
 from learn_raft_kvstore.stubs import kvstore_pb2
 from learn_raft_kvstore.stubs.kvstore_pb2 import GetCommand
 
+
 def test_kv():
     print("test_base")
     assert 1 == 1

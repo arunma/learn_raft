@@ -2,7 +2,6 @@ from learn_raft.stubs import raft_pb2_grpc
 
 
 class RaftService(raft_pb2_grpc.RaftServicer):
-
     def __init__(self, raft_node):
         self.raft_node = raft_node
 

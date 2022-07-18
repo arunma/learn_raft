@@ -4,8 +4,6 @@ import sys
 import click
 from click_repl import register_repl
 
-from learn_raft.service import grpc_server
-
 
 class Config:
     def __init__(self, home):
@@ -49,14 +47,6 @@ def set_config(config, configs):  # pragma: no cover
         config.config[key] = value
 
 
-@cli.command()
-@pass_config
-def start_all(config):
-    ports = config.config["ports"]
-    click.echo(f"Started Raft servers at ports: {ports}")
-    grpc_server.start(ports)
-
-
 # @cli.command()
 # @click.argument("port")
 # @pass_config
@@ -70,7 +60,9 @@ def start_all(config):
 @click.confirmation_option()
 @pass_config
 def stop(config, root):
-    click.echo(f"Stopping server with identifier xxxxx on port xxxxx {config.home}/{root}")
+    click.echo(
+        f"Stopping server with identifier xxxxx on port xxxxx {config.home}/{root}"
+    )
     click.echo("Stopped the Raft server dropped!")
 
 
