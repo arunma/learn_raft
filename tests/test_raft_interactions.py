@@ -1,6 +1,6 @@
 from learn_raft.raft import server_tostring
 from learn_raft.stubs.cluster_manager_pb2 import GetNodes
-from learn_raft.stubs.raft_pb2 import AddNode, RESULT_SUCCESS, RequestVote, AppendEntries, GetState
+from learn_raft.stubs.raft_pb2 import AddNode, RESULT_SUCCESS, RequestVote, AppendEntries, GetState, RemoveNode
 
 
 def test_leader_sending_heartbeat(cluster_manager_stub, leader_info_server_1, follower_info_server_2, leader_stub_1, follower_stub_2):
@@ -14,6 +14,8 @@ def test_leader_sending_heartbeat(cluster_manager_stub, leader_info_server_1, fo
     assert servers_actual == servers_expected
     # Heartbeat must update the cluster manager too
     assert get_nodes_response.leader_id == leader_info_server_1.id
+    _ = cluster_manager_stub.remove_node(RemoveNode(id=leader_info_server_1.id))
+    _ = cluster_manager_stub.remove_node(RemoveNode(id=follower_info_server_2.id))
 
 
 def test_node_states_when_two_nodes_are_added(cluster_manager_stub, leader_info_server_1, follower_info_server_2, leader_stub_1, follower_stub_2):
@@ -39,6 +41,8 @@ def test_node_states_when_two_nodes_are_added(cluster_manager_stub, leader_info_
     follower_actual = [server_tostring(server) for server in follower_state.peers]
     assert leader_actual == leader_expected
     assert follower_actual == follower_expected
+    _ = cluster_manager_stub.remove_node(RemoveNode(id=leader_info_server_1.id))
+    _ = cluster_manager_stub.remove_node(RemoveNode(id=follower_info_server_2.id))
 
 
 def test_add_node_one_leader_one_follower(cluster_manager_stub, candidate_info_server_1, candidate_stub_1, follower_info_server_2, follower_stub_2):

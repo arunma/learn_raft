@@ -3,7 +3,7 @@ import grpc
 from learn_raft.raft import server_tostring, state_tostring
 from learn_raft.raft.peer import Peer
 from learn_raft.stubs import cluster_manager_pb2_grpc
-from learn_raft.stubs.raft_pb2 import RESULT_SUCCESS, AddNodeResponse, GetStateResponse, RemoveNodeResponse, RequestVoteResponse
+from learn_raft.stubs.raft_pb2 import RESULT_SUCCESS, AddNodeResponse, GetStateResponse, RemoveNodeResponse, RequestVoteResponse, RESULT_FAILURE
 
 
 class NodeBase:
@@ -49,11 +49,11 @@ class NodeBase:
             if self.state.voted_for == request.id:
                 self.state.voted_for = None
             self.print_peer_map()
-            return RemoveNodeResponse(result=True)
+            return RemoveNodeResponse(result=RESULT_SUCCESS)
         else:
             print(f"Node id {request.id} not found in peer map of {server_tostring(self.state.server)}. Nothing to do.")
             self.print_peer_map()
-            return RemoveNodeResponse(result=True)
+            return RemoveNodeResponse(result=RESULT_FAILURE)
 
     # This function is called when the peers request for vote from this node
     def request_vote(self, request):

@@ -54,7 +54,8 @@ class ClusterManagerService(cluster_manager_pb2_grpc.ClusterManagerServicer):
         self.propagate_node_removal(request.id)
         self.print_cluster_map()
         # FIXME - This is a hack. We need to analyse the responses from the add_node and remove_node calls and then response
-        return RemoveNodeResponse(result=True)
+        print("^^^^^^^^^^^^^^^^^^^^^^ Returning Remove Node Response result = True")
+        return RemoveNodeResponse(result=RESULT_SUCCESS)
 
     def update_leader(self, request, context):
         if not self.cluster_leader or self.cluster_leader != request.leader_id:
