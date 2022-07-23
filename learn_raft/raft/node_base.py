@@ -3,7 +3,7 @@ import grpc
 from learn_raft.raft import server_tostring, state_tostring
 from learn_raft.raft.peer import Peer
 from learn_raft.stubs import cluster_manager_pb2_grpc
-from learn_raft.stubs.raft_pb2 import RESULT_SUCCESS, AddNodeResponse, GetStateResponse, RemoveNodeResponse, RequestVoteResponse, RESULT_FAILURE
+from learn_raft.stubs.raft_pb2 import RESULT_FAILURE, RESULT_SUCCESS, AddNodeResponse, GetStateResponse, RemoveNodeResponse, RequestVoteResponse
 
 
 class NodeBase:

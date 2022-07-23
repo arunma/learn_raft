@@ -14,7 +14,6 @@ def test_add_two_nodes(cluster_manager_stub, follower_info_server_1, follower_in
     assert remove_node_response_follower2.result == RESULT_SUCCESS
 
 
-
 def test_get_nodes_when_two_nodes_are_added(cluster_manager_stub, follower_info_server_1, follower_info_server_2, follower_stub_1, follower_stub_2):
     _ = cluster_manager_stub.add_node(AddNode(server=follower_info_server_1))
     _ = cluster_manager_stub.add_node(AddNode(server=follower_info_server_2))
