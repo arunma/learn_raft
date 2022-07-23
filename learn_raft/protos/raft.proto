@@ -9,6 +9,8 @@ service Raft {
   rpc add_node (AddNode) returns (AddNodeResponse) {}
   rpc remove_node (RemoveNode) returns (RemoveNodeResponse) {}
   rpc get_state (GetState) returns (GetStateResponse) {}
+  rpc start_election (StartElection) returns (StartElectionResponse) {}
+  rpc install_snapshot (InstallSnapshot) returns (InstallSnapshotResponse) {}
   //TODO pre_vote
   //TODO snapshot
 }
@@ -88,4 +90,18 @@ message GetStateResponse{
   optional uint64 last_applied_index = 6;
   repeated Server peers = 7;
   optional uint32 voted_for = 8;
+}
+
+message StartElection{
+}
+
+message StartElectionResponse{
+  optional ResultCode result = 1;
+}
+
+message InstallSnapshot{
+}
+
+message InstallSnapshotResponse{
+  optional ResultCode result = 1;
 }

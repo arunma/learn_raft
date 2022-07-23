@@ -4,7 +4,7 @@ from learn_raft.raft import server_tostring, state_tostring
 from learn_raft.raft.node_base import NodeBase
 from learn_raft.raft.timer import Timer
 from learn_raft.raft.transitioner import Transitioner
-from learn_raft.stubs.raft_pb2 import RequestVote
+from learn_raft.stubs.raft_pb2 import RESULT_FAILURE, RESULT_SUCCESS, RequestVote, StartElectionResponse
 
 
 class Candidate(NodeBase):
@@ -53,9 +53,11 @@ class Candidate(NodeBase):
         if self.has_majority_votes(yay_votes):
             print(f"+++++++++++++++++++++++++++++ {self.state.server.id} has majority votes ++++++++++++++++++++++++++++++++")
             self.to_leader()
+            return StartElectionResponse(result=RESULT_SUCCESS)
         else:
             print(f"------------------------------- {self.state.server.id} does not have majority votes -------------------------------")
             self.to_follower()
+            return StartElectionResponse(result=RESULT_FAILURE)
 
     def get_vote_from_peers(self, peer, request):
         vote_response = peer.stub.request_vote(request)

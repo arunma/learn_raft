@@ -39,6 +39,16 @@ class RaftStub(object):
             request_serializer=raft__pb2.GetState.SerializeToString,
             response_deserializer=raft__pb2.GetStateResponse.FromString,
         )
+        self.start_election = channel.unary_unary(
+            "/learn_raft.Raft/start_election",
+            request_serializer=raft__pb2.StartElection.SerializeToString,
+            response_deserializer=raft__pb2.StartElectionResponse.FromString,
+        )
+        self.install_snapshot = channel.unary_unary(
+            "/learn_raft.Raft/install_snapshot",
+            request_serializer=raft__pb2.InstallSnapshot.SerializeToString,
+            response_deserializer=raft__pb2.InstallSnapshotResponse.FromString,
+        )
 
 
 class RaftServicer(object):
@@ -74,6 +84,18 @@ class RaftServicer(object):
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
+    def start_election(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
+    def install_snapshot(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
 
 def add_RaftServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -101,6 +123,16 @@ def add_RaftServicer_to_server(servicer, server):
             servicer.get_state,
             request_deserializer=raft__pb2.GetState.FromString,
             response_serializer=raft__pb2.GetStateResponse.SerializeToString,
+        ),
+        "start_election": grpc.unary_unary_rpc_method_handler(
+            servicer.start_election,
+            request_deserializer=raft__pb2.StartElection.FromString,
+            response_serializer=raft__pb2.StartElectionResponse.SerializeToString,
+        ),
+        "install_snapshot": grpc.unary_unary_rpc_method_handler(
+            servicer.install_snapshot,
+            request_deserializer=raft__pb2.InstallSnapshot.FromString,
+            response_serializer=raft__pb2.InstallSnapshotResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler("learn_raft.Raft", rpc_method_handlers)
@@ -246,6 +278,64 @@ class Raft(object):
             "/learn_raft.Raft/get_state",
             raft__pb2.GetState.SerializeToString,
             raft__pb2.GetStateResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
+
+    @staticmethod
+    def start_election(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/learn_raft.Raft/start_election",
+            raft__pb2.StartElection.SerializeToString,
+            raft__pb2.StartElectionResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
+
+    @staticmethod
+    def install_snapshot(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/learn_raft.Raft/install_snapshot",
+            raft__pb2.InstallSnapshot.SerializeToString,
+            raft__pb2.InstallSnapshotResponse.FromString,
             options,
             channel_credentials,
             insecure,

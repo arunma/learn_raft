@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class State:
     def __init__(self, server, config, cluster_manager_ip):
         self.server = server

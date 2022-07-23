@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b'\n\nraft.proto\x12\nlearn_raft"\xad\x01\n\x0bRequestVote\x12\x16\n\tserver_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x1a\n\rlast_log_term\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x1b\n\x0elast_log_index\x18\x04 \x01(\x04H\x03\x88\x01\x01\x42\x0c\n\n_server_idB\x07\n\x05_termB\x10\n\x0e_last_log_termB\x11\n\x0f_last_log_index"}\n\x13RequestVoteResponse\x12\x16\n\tserver_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x16\n\tvoted_for\x18\x03 \x01(\rH\x02\x88\x01\x01\x42\x0c\n\n_server_idB\x07\n\x05_termB\x0c\n\n_voted_for"\x90\x02\n\rAppendEntries\x12\x11\n\x04term\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x16\n\tleader_id\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x1a\n\rprev_log_term\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x1b\n\x0eprev_log_index\x18\x04 \x01(\x04H\x03\x88\x01\x01\x12 \n\x13leader_commit_index\x18\x05 \x01(\x04H\x04\x88\x01\x01\x12%\n\x07\x65ntries\x18\x06 \x03(\x0b\x32\x14.learn_raft.LogEntryB\x07\n\x05_termB\x0c\n\n_leader_idB\x10\n\x0e_prev_log_termB\x11\n\x0f_prev_log_indexB\x16\n\x14_leader_commit_index"\x82\x01\n\x08LogEntry\x12\x11\n\x04type\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x12\n\x05index\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x14\n\x07\x63ommand\x18\x04 \x01(\x0cH\x03\x88\x01\x01\x42\x07\n\x05_typeB\x07\n\x05_termB\x08\n\x06_indexB\n\n\x08_command"\x9b\x01\n\x15\x41ppendEntriesResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x1b\n\x0elast_log_index\x18\x03 \x01(\x04H\x02\x88\x01\x01\x42\t\n\x07_resultB\x07\n\x05_termB\x11\n\x0f_last_log_index"X\n\x06Server\x12\x0f\n\x02id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04host\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x11\n\x04port\x18\x03 \x01(\rH\x02\x88\x01\x01\x42\x05\n\x03_idB\x07\n\x05_hostB\x07\n\x05_port"]\n\x07\x41\x64\x64Node\x12\'\n\x06server\x18\x01 \x01(\x0b\x32\x12.learn_raft.ServerH\x00\x88\x01\x01\x12\x13\n\x06\x63onfig\x18\x02 \x01(\tH\x01\x88\x01\x01\x42\t\n\x07_serverB\t\n\x07_config"I\n\x0f\x41\x64\x64NodeResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x42\t\n\x07_result"$\n\nRemoveNode\x12\x0f\n\x02id\x18\x01 \x01(\rH\x00\x88\x01\x01\x42\x05\n\x03_id"L\n\x12RemoveNodeResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x42\t\n\x07_result"\n\n\x08GetState"\xea\x02\n\x10GetStateResponse\x12\'\n\x06server\x18\x01 \x01(\x0b\x32\x12.learn_raft.ServerH\x00\x88\x01\x01\x12\x1f\n\x12\x63luster_manager_ip\x18\x02 \x01(\tH\x01\x88\x01\x01\x12!\n\x03log\x18\x03 \x03(\x0b\x32\x14.learn_raft.LogEntry\x12\x11\n\x04term\x18\x04 \x01(\x04H\x02\x88\x01\x01\x12\x19\n\x0c\x63ommit_index\x18\x05 \x01(\x04H\x03\x88\x01\x01\x12\x1f\n\x12last_applied_index\x18\x06 \x01(\x04H\x04\x88\x01\x01\x12!\n\x05peers\x18\x07 \x03(\x0b\x32\x12.learn_raft.Server\x12\x16\n\tvoted_for\x18\x08 \x01(\rH\x05\x88\x01\x01\x42\t\n\x07_serverB\x15\n\x13_cluster_manager_ipB\x07\n\x05_termB\x0f\n\r_commit_indexB\x15\n\x13_last_applied_indexB\x0c\n\n_voted_for*4\n\nResultCode\x12\x12\n\x0eRESULT_SUCCESS\x10\x00\x12\x12\n\x0eRESULT_FAILURE\x10\x01\x32\xf0\x02\n\x04Raft\x12J\n\x0crequest_vote\x12\x17.learn_raft.RequestVote\x1a\x1f.learn_raft.RequestVoteResponse"\x00\x12P\n\x0e\x61ppend_entries\x12\x19.learn_raft.AppendEntries\x1a!.learn_raft.AppendEntriesResponse"\x00\x12>\n\x08\x61\x64\x64_node\x12\x13.learn_raft.AddNode\x1a\x1b.learn_raft.AddNodeResponse"\x00\x12G\n\x0bremove_node\x12\x16.learn_raft.RemoveNode\x1a\x1e.learn_raft.RemoveNodeResponse"\x00\x12\x41\n\tget_state\x12\x14.learn_raft.GetState\x1a\x1c.learn_raft.GetStateResponse"\x00\x62\x06proto3'
+    b'\n\nraft.proto\x12\nlearn_raft"\xad\x01\n\x0bRequestVote\x12\x16\n\tserver_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x1a\n\rlast_log_term\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x1b\n\x0elast_log_index\x18\x04 \x01(\x04H\x03\x88\x01\x01\x42\x0c\n\n_server_idB\x07\n\x05_termB\x10\n\x0e_last_log_termB\x11\n\x0f_last_log_index"}\n\x13RequestVoteResponse\x12\x16\n\tserver_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x16\n\tvoted_for\x18\x03 \x01(\rH\x02\x88\x01\x01\x42\x0c\n\n_server_idB\x07\n\x05_termB\x0c\n\n_voted_for"\x90\x02\n\rAppendEntries\x12\x11\n\x04term\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x16\n\tleader_id\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x1a\n\rprev_log_term\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x1b\n\x0eprev_log_index\x18\x04 \x01(\x04H\x03\x88\x01\x01\x12 \n\x13leader_commit_index\x18\x05 \x01(\x04H\x04\x88\x01\x01\x12%\n\x07\x65ntries\x18\x06 \x03(\x0b\x32\x14.learn_raft.LogEntryB\x07\n\x05_termB\x0c\n\n_leader_idB\x10\n\x0e_prev_log_termB\x11\n\x0f_prev_log_indexB\x16\n\x14_leader_commit_index"\x82\x01\n\x08LogEntry\x12\x11\n\x04type\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x12\n\x05index\x18\x03 \x01(\x04H\x02\x88\x01\x01\x12\x14\n\x07\x63ommand\x18\x04 \x01(\x0cH\x03\x88\x01\x01\x42\x07\n\x05_typeB\x07\n\x05_termB\x08\n\x06_indexB\n\n\x08_command"\x9b\x01\n\x15\x41ppendEntriesResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x12\x11\n\x04term\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x1b\n\x0elast_log_index\x18\x03 \x01(\x04H\x02\x88\x01\x01\x42\t\n\x07_resultB\x07\n\x05_termB\x11\n\x0f_last_log_index"X\n\x06Server\x12\x0f\n\x02id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x11\n\x04host\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x11\n\x04port\x18\x03 \x01(\rH\x02\x88\x01\x01\x42\x05\n\x03_idB\x07\n\x05_hostB\x07\n\x05_port"]\n\x07\x41\x64\x64Node\x12\'\n\x06server\x18\x01 \x01(\x0b\x32\x12.learn_raft.ServerH\x00\x88\x01\x01\x12\x13\n\x06\x63onfig\x18\x02 \x01(\tH\x01\x88\x01\x01\x42\t\n\x07_serverB\t\n\x07_config"I\n\x0f\x41\x64\x64NodeResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x42\t\n\x07_result"$\n\nRemoveNode\x12\x0f\n\x02id\x18\x01 \x01(\rH\x00\x88\x01\x01\x42\x05\n\x03_id"L\n\x12RemoveNodeResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x42\t\n\x07_result"\n\n\x08GetState"\xea\x02\n\x10GetStateResponse\x12\'\n\x06server\x18\x01 \x01(\x0b\x32\x12.learn_raft.ServerH\x00\x88\x01\x01\x12\x1f\n\x12\x63luster_manager_ip\x18\x02 \x01(\tH\x01\x88\x01\x01\x12!\n\x03log\x18\x03 \x03(\x0b\x32\x14.learn_raft.LogEntry\x12\x11\n\x04term\x18\x04 \x01(\x04H\x02\x88\x01\x01\x12\x19\n\x0c\x63ommit_index\x18\x05 \x01(\x04H\x03\x88\x01\x01\x12\x1f\n\x12last_applied_index\x18\x06 \x01(\x04H\x04\x88\x01\x01\x12!\n\x05peers\x18\x07 \x03(\x0b\x32\x12.learn_raft.Server\x12\x16\n\tvoted_for\x18\x08 \x01(\rH\x05\x88\x01\x01\x42\t\n\x07_serverB\x15\n\x13_cluster_manager_ipB\x07\n\x05_termB\x0f\n\r_commit_indexB\x15\n\x13_last_applied_indexB\x0c\n\n_voted_for"\x0f\n\rStartElection"O\n\x15StartElectionResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x42\t\n\x07_result"\x11\n\x0fInstallSnapshot"Q\n\x17InstallSnapshotResponse\x12+\n\x06result\x18\x01 \x01(\x0e\x32\x16.learn_raft.ResultCodeH\x00\x88\x01\x01\x42\t\n\x07_result*4\n\nResultCode\x12\x12\n\x0eRESULT_SUCCESS\x10\x00\x12\x12\n\x0eRESULT_FAILURE\x10\x01\x32\x9a\x04\n\x04Raft\x12J\n\x0crequest_vote\x12\x17.learn_raft.RequestVote\x1a\x1f.learn_raft.RequestVoteResponse"\x00\x12P\n\x0e\x61ppend_entries\x12\x19.learn_raft.AppendEntries\x1a!.learn_raft.AppendEntriesResponse"\x00\x12>\n\x08\x61\x64\x64_node\x12\x13.learn_raft.AddNode\x1a\x1b.learn_raft.AddNodeResponse"\x00\x12G\n\x0bremove_node\x12\x16.learn_raft.RemoveNode\x1a\x1e.learn_raft.RemoveNodeResponse"\x00\x12\x41\n\tget_state\x12\x14.learn_raft.GetState\x1a\x1c.learn_raft.GetStateResponse"\x00\x12P\n\x0estart_election\x12\x19.learn_raft.StartElection\x1a!.learn_raft.StartElectionResponse"\x00\x12V\n\x10install_snapshot\x12\x1b.learn_raft.InstallSnapshot\x1a#.learn_raft.InstallSnapshotResponse"\x00\x62\x06proto3'
 )
 
 _RESULTCODE = DESCRIPTOR.enum_types_by_name["ResultCode"]
@@ -36,6 +36,10 @@ _REMOVENODE = DESCRIPTOR.message_types_by_name["RemoveNode"]
 _REMOVENODERESPONSE = DESCRIPTOR.message_types_by_name["RemoveNodeResponse"]
 _GETSTATE = DESCRIPTOR.message_types_by_name["GetState"]
 _GETSTATERESPONSE = DESCRIPTOR.message_types_by_name["GetStateResponse"]
+_STARTELECTION = DESCRIPTOR.message_types_by_name["StartElection"]
+_STARTELECTIONRESPONSE = DESCRIPTOR.message_types_by_name["StartElectionResponse"]
+_INSTALLSNAPSHOT = DESCRIPTOR.message_types_by_name["InstallSnapshot"]
+_INSTALLSNAPSHOTRESPONSE = DESCRIPTOR.message_types_by_name["InstallSnapshotResponse"]
 RequestVote = _reflection.GeneratedProtocolMessageType(
     "RequestVote",
     (_message.Message,),
@@ -168,12 +172,56 @@ GetStateResponse = _reflection.GeneratedProtocolMessageType(
 )
 _sym_db.RegisterMessage(GetStateResponse)
 
+StartElection = _reflection.GeneratedProtocolMessageType(
+    "StartElection",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _STARTELECTION,
+        "__module__": "raft_pb2"
+        # @@protoc_insertion_point(class_scope:learn_raft.StartElection)
+    },
+)
+_sym_db.RegisterMessage(StartElection)
+
+StartElectionResponse = _reflection.GeneratedProtocolMessageType(
+    "StartElectionResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _STARTELECTIONRESPONSE,
+        "__module__": "raft_pb2"
+        # @@protoc_insertion_point(class_scope:learn_raft.StartElectionResponse)
+    },
+)
+_sym_db.RegisterMessage(StartElectionResponse)
+
+InstallSnapshot = _reflection.GeneratedProtocolMessageType(
+    "InstallSnapshot",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _INSTALLSNAPSHOT,
+        "__module__": "raft_pb2"
+        # @@protoc_insertion_point(class_scope:learn_raft.InstallSnapshot)
+    },
+)
+_sym_db.RegisterMessage(InstallSnapshot)
+
+InstallSnapshotResponse = _reflection.GeneratedProtocolMessageType(
+    "InstallSnapshotResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _INSTALLSNAPSHOTRESPONSE,
+        "__module__": "raft_pb2"
+        # @@protoc_insertion_point(class_scope:learn_raft.InstallSnapshotResponse)
+    },
+)
+_sym_db.RegisterMessage(InstallSnapshotResponse)
+
 _RAFT = DESCRIPTOR.services_by_name["Raft"]
 if _descriptor._USE_C_DESCRIPTORS == False:
 
     DESCRIPTOR._options = None
-    _RESULTCODE._serialized_start = 1648
-    _RESULTCODE._serialized_end = 1700
+    _RESULTCODE._serialized_start = 1848
+    _RESULTCODE._serialized_end = 1900
     _REQUESTVOTE._serialized_start = 27
     _REQUESTVOTE._serialized_end = 200
     _REQUESTVOTERESPONSE._serialized_start = 202
@@ -198,6 +246,14 @@ if _descriptor._USE_C_DESCRIPTORS == False:
     _GETSTATE._serialized_end = 1281
     _GETSTATERESPONSE._serialized_start = 1284
     _GETSTATERESPONSE._serialized_end = 1646
-    _RAFT._serialized_start = 1703
-    _RAFT._serialized_end = 2071
+    _STARTELECTION._serialized_start = 1648
+    _STARTELECTION._serialized_end = 1663
+    _STARTELECTIONRESPONSE._serialized_start = 1665
+    _STARTELECTIONRESPONSE._serialized_end = 1744
+    _INSTALLSNAPSHOT._serialized_start = 1746
+    _INSTALLSNAPSHOT._serialized_end = 1763
+    _INSTALLSNAPSHOTRESPONSE._serialized_start = 1765
+    _INSTALLSNAPSHOTRESPONSE._serialized_end = 1846
+    _RAFT._serialized_start = 1903
+    _RAFT._serialized_end = 2441
 # @@protoc_insertion_point(module_scope)

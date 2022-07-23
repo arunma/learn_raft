@@ -25,13 +25,15 @@ def add_node_tostring(add_node):
 
 
 def state_tostring(state):
-    return (
-        f"\n{state.server.id} --> {state.server.host}:{state.server.port}, "
-        f"\ncurrent_term: {state.term}, "
-        f"\nvoted_for: {state.voted_for}, "
-        f"\nlog: {state.log}, "
-        f"\npeer_map: {state.peer_map}"
-    )
+    print(f"****** Printing state ****** {state}")
+    return str(state)
+    # return (
+    #     f"\n{state.server.id} --> {state.server.host}:{state.server.port}, "
+    #     f"\ncurrent_term: {state.term}, "
+    #     f"\nvoted_for: {state.voted_for}, "
+    #     f"\nlog: {state.log}, "
+    #     f"\npeer_map: {state.peer_map}"
+    # )
 
 
 class NodeState(Enum):
