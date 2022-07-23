@@ -1,6 +1,5 @@
 from random import random
 
-from learn_raft.raft import server_tostring, state_tostring
 from learn_raft.raft.node_base import NodeBase
 from learn_raft.raft.timer import Timer
 from learn_raft.raft.transitioner import Transitioner
@@ -10,20 +9,21 @@ from learn_raft.stubs.raft_pb2 import RESULT_FAILURE, RESULT_SUCCESS, RequestVot
 class Candidate(NodeBase):
     def __init__(self, state):
         super().__init__(state)
+        self.interval = self.state.election_timeout_from + (self.state.election_timeout_to - self.state.election_timeout_from) * random()
+        self.election_timer = Timer(self.interval, self.start_election, self.state.server.id, "candidate")
+
+    def start(self):
+        print(f"Starting follower : {self.state.server.id}")
         self.start_election_timer()
 
     def start_election_timer(self):
-        interval = self.state.election_timeout_from + (self.state.election_timeout_to - self.state.election_timeout_from) * random()
-        print(f"Starting election timer for {self.state.server.id} at interval {interval} seconds")
-        self.election_timer = Timer(interval, self.start_election, self.state.server.id, "candidate")
+        print(f"Starting election timer for {self.state.server.id} at interval {self.interval} seconds")
         self.election_timer.start()
         # self.start_election()
         print(f"Election thread started for {self.state.server.id}")
 
     def start_election(self):
-        print(f"Called start_election (state) in RAFT_NODE: {state_tostring(self.state)}")
-        print(f"Called start_election (server_info) in RAFT_NODE: {server_tostring(self.state.server)}")
-        print(f"Called start_election in RAFT_NODE: {self.state.server.id}")
+        print(f"Called start_election in RAFT_NODE: {self.state.server.id}. Currently voted for {self.state.voted_for}")
         peer_votes = []
         print(f"Peer map items : {self.state.peer_map.items()}")
         yay_votes = 0
@@ -32,6 +32,7 @@ class Candidate(NodeBase):
             yay_votes += 1
             self.voted_for = self.state.server.id
 
+        print("Gathering votes from peers")
         # Gather votes
         for id, peer in self.state.peer_map.items():
             if peer.server.id == self.state.server.id:
@@ -66,11 +67,13 @@ class Candidate(NodeBase):
     def to_leader(self):
         self.election_timer.stop()
         leader = Transitioner.to_leader(self.state)
+        leader.start()
         return leader
 
     def to_follower(self):
         self.election_timer.stop()
         follower = Transitioner.to_follower(self.state)
+        follower.start()
         return follower
 
     # def append_entries(self, request):

@@ -30,10 +30,12 @@ class Timer:
 
     def stop(self):
         # print(f"********* Timer STOPPED for {self.server_id} of type {self.server_type} for purpose of {self.purpose} *********")
-        self.running = False
-        self.timer.cancel()
+        if self.running:
+            self.running = False
+            self.timer.cancel()
 
     def reset(self):
         # print(f"********* Timer RESETTING for {self.server_id} of type {self.server_type} for purpose of {self.purpose} *********")
-        self.stop()
-        self.start()
+        if self.running:
+            self.stop()
+            self.start()

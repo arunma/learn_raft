@@ -9,22 +9,24 @@ from learn_raft.stubs.raft_pb2 import RESULT_SUCCESS, AppendEntries, AppendEntri
 class Leader(NodeBase):
     def __init__(self, state):
         super().__init__(state)
+        self.hb_interval = self.state.config["heartbeat_interval"]
+        self.sd_interval = self.state.config["step_down_timeout"]
+        # TODO Need to check if this is the right way to do this. I believe the append_entries would kick in to reset this.
+        self.heartbeat_timer = Timer(self.hb_interval, self.send_heartbeat, self.state.server.id, "leader", "heartbeat")
+        self.stepdown_timer = Timer(self.sd_interval, self.stepdown, self.state.server.id, "leader", "stepdown")
+
+    def start(self):
+        print(f"Starting follower : {self.state.server.id}")
         self.start_heartbeat_timer()
-        self.start_stepdown_timer()
+        # self.start_stepdown_timer()
 
     def start_heartbeat_timer(self):
-        interval = self.state.config["heartbeat_interval"]
-        print(f"Starting heartbeat timer for {self.state.server.id} at interval {interval} seconds")
-        # TODO Need to check if this is the right way to do this. I believe the append_entries would kick in to reset this.
-        self.heartbeat_timer = Timer(interval, self.send_heartbeat, self.state.server.id, "leader", "heartbeat")
+        print(f"Starting heartbeat timer for {self.state.server.id} at interval {self.hb_interval} seconds")
         self.heartbeat_timer.start()
         print(f"Heartbeat timer started for {self.state.server.id} at {datetime.datetime.now()}")
 
     def start_stepdown_timer(self):
-        interval = self.state.config["step_down_timeout"]
-        print(f"Starting election timer for {self.state.server.id} at interval {interval} seconds")
-        # TODO Need to check if this is the right way to do this. I believe the append_entries would kick in to reset this.
-        self.stepdown_timer = Timer(interval, self.stepdown, self.state.server.id, "leader", "stepdown")
+        print(f"Starting election timer for {self.state.server.id} at interval {self.sd_interval} seconds")
         self.stepdown_timer.start()
         print(f"Stepdown timer started for {self.state.server.id} at {datetime.datetime.now()}")
 
@@ -43,7 +45,7 @@ class Leader(NodeBase):
 
         if not self.state.peer_map:
             print(f"No peers found for {self.state.server.id}")
-            self.stepdown_timer.reset()
+            # self.stepdown_timer.reset()
         else:
             peer_responses = []
             for id, peer in self.state.peer_map.items():
@@ -66,9 +68,7 @@ class Leader(NodeBase):
                 # print(f"Resetting stepdown_timer after server id {self.state.server.id} received majority votes.")
             else:
                 print(f"server id {self.state.server.id} did not receive majority votes. Stepping down as follower")
-                self.stepdown_timer.stop()
-                self.heartbeat_timer.stop()
-                Transitioner.to_follower(self.state)
+                self.stepdown()
 
         # Update cluster manager with new leader
         # print("Updating cluster manager with the new leader")
@@ -79,4 +79,5 @@ class Leader(NodeBase):
         self.heartbeat_timer.stop()
         self.stepdown_timer.stop()
         follower = Transitioner.to_follower(self.state)
+        follower.start()
         return follower

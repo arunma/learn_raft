@@ -10,14 +10,16 @@ from learn_raft.stubs.raft_pb2 import RESULT_FAILURE, RESULT_SUCCESS, AppendEntr
 class Follower(NodeBase):
     def __init__(self, state):
         super().__init__(state)
+        self.interval = self.state.election_timeout_from + (self.state.election_timeout_to - self.state.election_timeout_from) * random()
+        self.election_timer = Timer(self.interval, self.start_election, self.state.server.id, "follower")
+
+    def start(self):
+        print(f"Starting follower : {self.state.server.id}")
         self.start_election_timer()
 
     def start_election_timer(self):
-        interval = self.state.election_timeout_from + (self.state.election_timeout_to - self.state.election_timeout_from) * random()
-        print(f"Starting election timer for {self.state.server.id} at interval {interval} seconds")
-        self.election_timer = Timer(interval, self.start_election, self.state.server.id, "follower")
+        print(f"Starting election timer for {self.state.server.id} at interval {self.interval} seconds")
         self.election_timer.start()
-        # self.start_election()
         print(f"Election thread started for {self.state.server.id}")
 
     @classmethod
@@ -53,4 +55,5 @@ class Follower(NodeBase):
 
     def to_candidate(self):
         self.election_timer.stop()
-        Transitioner.to_candidate(self.state)
+        candidate = Transitioner.to_candidate(self.state)
+        candidate.start()

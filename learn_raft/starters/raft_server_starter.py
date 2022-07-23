@@ -30,6 +30,7 @@ class RaftServerStarter:
             await server.start()
             # await raft_node.start()
             self.register_raft_node(server_info)
+            raft_node.start()
             await server.wait_for_termination()
         finally:
             print(f"Deregistering {server_tostring(server_info)} as the server is stopped")
